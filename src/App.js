@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from "react";
 
 const ADMIN_SECRET = "CAPACITI2025";
 const SUPERADMIN_SECRET = "SUPER2025";
@@ -44,37 +45,75 @@ function generateId(prefix) {
 }
 
 async function classifyWithClaude(description) {
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 1000,
-      messages: [{
-        role: "user",
-        content: `You are a corporate support ticket classifier. Classify the following employee support request into exactly one of these departments: IT, HR, Finance, Operations.
 
-IT: computer hardware, software, network, internet, email, printers, access, passwords, systems
-HR: leave, contracts, payroll, onboarding, training, benefits, performance, policies, complaints
-Finance: expenses, reimbursements, invoices, budgets, payments, salaries, procurement
-Operations: office maintenance, air conditioning, parking, cleaning, furniture, building access, security, facilities
+  await new Promise(res => setTimeout(res, 800));
 
-If the request clearly fits one department, respond with JSON: {"department": "DEPT", "valid": true, "reason": "one sentence"}
-If the request is completely unrelated to work (e.g. personal matters, gibberish, inappropriate), respond with JSON: {"department": null, "valid": false, "reason": "brief explanation"}
+  const text = description.toLowerCase();
 
-Request: "${description}"
+  const keywords = {
+    IT: [
+      "laptop","computer","pc","screen","monitor","keyboard","mouse","printer","scanner",
+      "wifi","wi-fi","internet","network","vpn","connection","ethernet","router",
+      "email","outlook","teams","zoom","software","application","app","install","update","crash","error","bug",
+      "password","login","access","account","permissions","drive","shared drive","server",
+      "phone","headset","cable","charger","usb","hardware","system","windows","mac","browser"
+    ],
+    HR: [
+      "leave","annual leave","sick leave","maternity","paternity","vacation","day off","time off",
+      "contract","employment","offer letter","confirmation","letter","certificate",
+      "payroll","payslip","salary","wages","bonus","deduction","tax","uif",
+      "onboarding","offboarding","training","workshop","course","induction",
+      "benefits","medical aid","provident","pension","insurance",
+      "performance","review","appraisal","kpi","promotion","disciplinary","complaint","grievance","policy","hr","human resources"
+    ],
+    Finance: [
+      "expense","expenses","reimbursement","reimburse","claim","petty cash",
+      "invoice","receipt","payment","purchase","procurement","order","quote","supplier","vendor",
+      "budget","forecast","report","financial","accounting","account",
+      "salary","short paid","underpaid","overpaid","paycheck","deposit","transfer","refund",
+      "travel allowance","subsistence","per diem","tax invoice","vat"
+    ],
+    Operations: [
+      "air conditioning","aircon","ac","heating","hvac","temperature","cold","hot",
+      "parking","parking bay","parking lot","vehicle","car","gate","barrier",
+      "cleaning","cleaner","dirty","mess","hygiene","bathroom","toilet","kitchen","canteen",
+      "furniture","chair","desk","table","shelf","cabinet","broken","damaged","repair","fix",
+      "building","office","room","meeting room","boardroom","floor","ceiling","roof","leak","light","lights","bulb",
+      "access card","swipe card","security","guard","cctv","alarm","key","lock","door",
+      "facilities","maintenance","generator","elevator","lift","stairs"
+    ],
+  };
 
-Respond with ONLY the JSON object, no other text.`
-      }]
-    })
-  });
-  const data = await response.json();
-  const text = data.content.map(b => b.text || "").join("");
-  const clean = text.replace(/```json|```/g, "").trim();
-  return JSON.parse(clean);
+  const scores = {};
+  for (const [dept, words] of Object.entries(keywords)) {
+    scores[dept] = words.filter(w => text.includes(w)).length;
+  }
+
+  const topDept = Object.entries(scores).sort((a, b) => b[1] - a[1])[0];
+
+  if (topDept[1] === 0) {
+    return {
+      department: null,
+      valid: false,
+      reason: "Your request does not appear to be work-related. Please describe a specific workplace issue and try again.",
+    };
+  }
+
+  const reasons = {
+    IT:         "Routed to IT — relates to technology, systems, or software.",
+    HR:         "Routed to HR — relates to people, leave, or employment matters.",
+    Finance:    "Routed to Finance — relates to payments, expenses, or financial queries.",
+    Operations: "Routed to Operations — relates to office facilities or building maintenance.",
+  };
+
+  return {
+    department: topDept[0],
+    valid: true,
+    reason: reasons[topDept[0]],
+  };
 }
 
-// ── Theme System ──────────────────────────────────────────────────
+
 const LIGHT = {
   bg: "#F8FAFC", surface: "#FFFFFF", border: "#E2E8F0",
   text: "#111827", muted: "#64748B", subtle: "#F1F5F9",
@@ -86,7 +125,7 @@ const DARK = {
   inputBg: "#0F172A", headerBg: "#1E293B",
 };
 
-// ── Shared UI ─────────────────────────────────────────────────────
+
 function StatusBadge({ status, dark }) {
   const c = STATUS_COLORS[status] || STATUS_COLORS.Open;
   const bg = dark ? c.darkBg : c.bg;
@@ -135,7 +174,6 @@ const GLOBAL_STYLES = `
   .hoverlift { transition: transform 0.2s ease !important; }
 `;
 
-// ── LANDING PAGE ──────────────────────────────────────────────────
 function LandingPage({ onNav }) {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -232,7 +270,7 @@ function LandingPage({ onNav }) {
   );
 }
 
-// ── AUTH PAGE ─────────────────────────────────────────────────────
+
 function AuthPage({ mode, onNav, users, setUsers, admins, setAdmins, onRegistered, dark, setDark }) {
   const isLogin = mode === "login";
   const [tab, setTab] = useState("user");
@@ -333,7 +371,6 @@ function AuthPage({ mode, onNav, users, setUsers, admins, setAdmins, onRegistere
   );
 }
 
-// ── EMPLOYEE PORTAL ───────────────────────────────────────────────
 function EmployeePortal({ user, tickets, setTickets, onLogout, dark, setDark }) {
   const [activeTab, setActiveTab] = useState("submit");
   const [description, setDescription] = useState("");
@@ -467,7 +504,6 @@ function EmployeePortal({ user, tickets, setTickets, onLogout, dark, setDark }) 
   );
 }
 
-// ── DEPT ADMIN PORTAL ─────────────────────────────────────────────
 function AdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }) {
   const [filter, setFilter] = useState("All");
   const t = dark ? DARK : LIGHT;
@@ -569,7 +605,7 @@ function AdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }) {
   );
 }
 
-// ── SVG CHARTS for Super Admin ────────────────────────────────────
+
 function BarChart({ deptStats, dark }) {
   const t = dark ? DARK : LIGHT;
   const W = 420, H = 200, padL = 40, padB = 30, padT = 20, padR = 16;
@@ -667,7 +703,6 @@ function LineChart({ tickets, dark }) {
   const chartW = W - padL - padR;
   const chartH = H - padB - padT;
 
-  // Group by date, last 7 data points
   const byDate = {};
   tickets.forEach(tk => { byDate[tk.date] = (byDate[tk.date] || 0) + 1; });
   const dates = Object.keys(byDate).sort().slice(-7);
@@ -721,7 +756,7 @@ function LineChart({ tickets, dark }) {
   );
 }
 
-// ── SUPER ADMIN PORTAL ────────────────────────────────────────────
+
 function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }) {
   const [activeDept, setActiveDept] = useState("ALL");
   const [filter, setFilter] = useState("All");
@@ -880,7 +915,7 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
   );
 }
 
-// ── APP ROOT ──────────────────────────────────────────────────────
+
 export default function App() {
   const [page, setPage] = useState("landing");
   const [users, setUsers] = useState(INITIAL_USERS);
