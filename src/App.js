@@ -341,7 +341,7 @@ function LandingPage({ onNav }) {
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 34, height: 34, borderRadius: 9, background: "linear-gradient(135deg,#6366F1,#8B5CF6)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 17, boxShadow: "0 4px 14px rgba(99,102,241,0.4)" }}>🌉</div>
           <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 18, letterSpacing: -0.5 }}>OpsBridge</span>
-          <span style={{ fontSize: 10, background: "linear-gradient(135deg,#6366F1,#8B5CF6)", color: "#fff", padding: "2px 8px", borderRadius: 100, fontWeight: 700, marginLeft: 4 }}>v2.0</span>
+         
         </div>
         <div style={{ display: "flex", gap: 10 }}>
           <button className="ghost" onClick={() => onNav("login")} style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", borderRadius: 10, padding: "8px 22px", fontSize: 14, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" }}>Sign In</button>
@@ -350,16 +350,14 @@ function LandingPage({ onNav }) {
       </nav>
 
       <div style={{ maxWidth: 860, margin: "0 auto", padding: "8rem 2rem 5rem", textAlign: "center", animation: "fadeUp 0.7s ease" }}>
-        {/* Week 2 badge */}
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(16,185,129,0.12)", border: "1px solid rgba(16,185,129,0.3)", borderRadius: 100, padding: "6px 16px", marginBottom: "1.5rem", fontSize: 12, fontWeight: 700, color: "#6EE7B7" }}>
-          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#10B981", display: "inline-block" }} />
-          WEEK 2 — AI RESPONSE GENERATOR ADDED
-        </div>
+       
         <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: "clamp(2.8rem,7vw,5.2rem)", fontWeight: 800, lineHeight: 1.06, letterSpacing: -2.5, margin: "0 0 1.5rem", background: "linear-gradient(140deg,#fff 30%,#A5B4FC 75%,#8B5CF6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
           The Bridge Between<br />Your Team & Support
         </h1>
-        <p style={{ fontSize: 18, color: "#94A3B8", lineHeight: 1.75, maxWidth: 560, margin: "0 auto 3rem" }}>
-          Describe your issue in plain English. OpsBridge classifies, routes, and now <strong style={{ color: "#A5B4FC" }}>automatically generates professional responses</strong> — instantly.
+      <p style={{ fontSize: 18, color: "#94A3B8", lineHeight: 1.75, maxWidth: 560, margin: "0 auto 3rem" }}>
+        Turn complex support requests into action. OpsBridge classifies, routes, and  
+         <strong style={{ color: "#A5B4FC" }}> creates ready-to-send responses automatically.
+        </strong>
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <button className="hero-cta" onClick={() => onNav("register")} style={{ background: "linear-gradient(135deg,#6366F1,#8B5CF6)", border: "none", color: "#fff", borderRadius: 14, padding: "15px 36px", fontSize: 16, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", boxShadow: "0 6px 24px rgba(99,102,241,0.35)" }}>Get Started →</button>
@@ -367,22 +365,20 @@ function LandingPage({ onNav }) {
         </div>
       </div>
 
-      {/* Demo card showing response generator */}
-      <div style={{ maxWidth: 680, margin: "0 auto 6rem", padding: "0 2rem", animation: "float 6s ease-in-out infinite" }}>
+            {/* Floating demo card */}
+      <div style={{ maxWidth: 640, margin: "0 auto 6rem", padding: "0 2rem", animation: "float 6s ease-in-out infinite" }}>
         <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 22, padding: "2rem", backdropFilter: "blur(10px)" }}>
-          <div style={{ fontSize: 12, color: "#475569", fontWeight: 600, letterSpacing: 0.5, marginBottom: 10 }}>AI RESPONSE GENERATOR — WEEK 2</div>
-          <div style={{ background: "rgba(255,255,255,0.05)", borderRadius: 12, padding: "1rem 1.25rem", fontSize: 14, color: "#CBD5E1", fontStyle: "italic", marginBottom: "1.25rem", borderLeft: "3px solid rgba(99,102,241,0.5)", lineHeight: 1.6 }}>
+          <div style={{ fontSize: 12, color: "#475569", fontWeight: 600, letterSpacing: 0.5, marginBottom: 10 }}>INCOMING REQUEST</div>
+          <div style={{ background: "rgba(255,255,255,0.05)", borderRadius: 12, padding: "1rem 1.25rem", fontSize: 15, color: "#CBD5E1", fontStyle: "italic", marginBottom: "1.5rem", lineHeight: 1.65, borderLeft: "3px solid rgba(99,102,241,0.5)" }}>
             "My laptop won't connect to the office Wi-Fi and I can't access my emails..."
           </div>
-          <div style={{ display: "flex", gap: 6, marginBottom: "1.25rem" }}>
-            {Object.entries(TONE_CONFIG).map(([key, cfg]) => (
-              <div key={key} className="pill" style={{ padding: "5px 14px", borderRadius: 100, fontSize: 11, fontWeight: 700, background: key === "formal" ? cfg.bg : "rgba(255,255,255,0.04)", border: `1px solid ${key === "formal" ? cfg.border : "rgba(255,255,255,0.08)"}`, color: key === "formal" ? cfg.color : "#334155" }}>
-                {cfg.emoji} {cfg.label}
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {DEPARTMENTS.map((d, i) => (
+              <div key={d} className="pill" style={{ padding: "6px 16px", borderRadius: 100, fontSize: 12, fontWeight: 700, background: i === 0 ? "rgba(99,102,241,0.25)" : "rgba(255,255,255,0.04)", border: `1px solid ${i === 0 ? "rgba(99,102,241,0.55)" : "rgba(255,255,255,0.08)"}`, color: i === 0 ? "#A5B4FC" : "#334155" }}>
+                {i === 0 ? "✓ " : ""}{d}
               </div>
             ))}
-          </div>
-          <div style={{ background: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.2)", borderRadius: 10, padding: "10px 14px", fontSize: 12, color: "#6EE7B7", fontFamily: "monospace", lineHeight: 1.6 }}>
-            "Dear Thabo, Thank you for contacting the IT Support Department. Your ticket has been logged and a qualified technician has been allocated..."
+            <div style={{ padding: "6px 16px", borderRadius: 100, fontSize: 12, fontWeight: 700, background: "rgba(16,185,129,0.15)", border: "1px solid rgba(16,185,129,0.35)", color: "#6EE7B7", marginLeft: "auto" }}>Routed ⚡</div>
           </div>
         </div>
       </div>
@@ -391,7 +387,7 @@ function LandingPage({ onNav }) {
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 2rem 8rem" }}>
         <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
           <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 34, fontWeight: 800, letterSpacing: -1.5, margin: "0 0 0.5rem" }}>Now with intelligent responses</h2>
-          <p style={{ color: "#475569", fontSize: 16 }}>Sprint 2 adds AI-powered communication to every ticket</p>
+          <p style={{ color: "#475569", fontSize: 16 }}></p>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 16 }}>
           {[
@@ -415,7 +411,7 @@ function LandingPage({ onNav }) {
       </div>
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "2rem", textAlign: "center", fontSize: 12, color: "#1E293B" }}>
-        © 2025 OpsBridge · Capaciti Tech Career Accelerator · Sprint 2
+        © 2025 OpsBridge · Capaciti Tech Career Accelerator ·
       </div>
     </div>
   );
