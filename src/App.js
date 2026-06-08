@@ -922,6 +922,8 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
   const [activeDept, setActiveDept] = useState("ALL");
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
+  const [saTab, setSaTab] = useState("overview");
+  const [saActiveTicket, setSaActiveTicket] = useState(null);
   const t = dark ? DARK : LIGHT;
 
   const displayTickets = tickets
@@ -930,6 +932,7 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
     .filter(tk => !search || tk.description.toLowerCase().includes(search.toLowerCase()) || tk.userName.toLowerCase().includes(search.toLowerCase()) || tk.id.toLowerCase().includes(search.toLowerCase()));
 
   const updateStatus = (id, status) => setTickets(p => p.map(tk => tk.id === id ? { ...tk, status } : tk));
+  const saveResponse = (id, response, tone) => setTickets(p => p.map(tk => tk.id === id ? { ...tk, response, responseTone: tone, status: tk.status === "Open" ? "Pending" : tk.status } : tk));
   const total = tickets.length, open = tickets.filter(tk => tk.status === "Open").length, pending = tickets.filter(tk => tk.status === "Pending").length, resolved = tickets.filter(tk => tk.status === "Resolved").length;
   const responded = tickets.filter(tk => tk.response).length;
   const deptStats = DEPARTMENTS.map((d, i) => ({ dept: d, color: DEPT_COLORS[i], total: tickets.filter(tk => tk.department === d).length, open: tickets.filter(tk => tk.department === d && tk.status === "Open").length, pending: tickets.filter(tk => tk.department === d && tk.status === "Pending").length, resolved: tickets.filter(tk => tk.department === d && tk.status === "Resolved").length }));
@@ -952,6 +955,19 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
           <button onClick={onLogout} style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", color: "#94A3B8", borderRadius: 8, padding: "6px 16px", fontSize: 13, cursor: "pointer", fontFamily: "inherit" }}>Logout</button>
         </div>
       </header>
+
+      {/* Super Admin Sub-nav */}
+      <div style={{ background: "rgba(0,0,0,0.2)", borderBottom: "1px solid rgba(255,255,255,0.07)", display: "flex", padding: "0 2rem", backdropFilter: "blur(10px)" }}>
+        {[
+          { key: "overview", label: "📊 Command Centre" },
+          { key: "responses", label: "💬 Response Generator" },
+        ].map(tb => (
+          <button key={tb.key} onClick={() => setSaTab(tb.key)} style={{ padding: "14px 20px", border: "none", borderBottom: saTab === tb.key ? "2px solid #A5B4FC" : "2px solid transparent", background: "none", fontSize: 14, fontWeight: saTab === tb.key ? 700 : 500, color: saTab === tb.key ? "#A5B4FC" : "#475569", cursor: "pointer", fontFamily: "inherit", transition: "all 0.15s" }}>
+            {tb.label}
+            {tb.key === "responses" && <span style={{ marginLeft: 6, fontSize: 9, background: "linear-gradient(135deg,#6366F1,#8B5CF6)", color: "#fff", padding: "2px 6px", borderRadius: 100, fontWeight: 700 }}>WEEK 2</span>}
+          </button>
+        ))}
+      </div>
 
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "2.5rem 1.5rem" }}>
         <div style={{ marginBottom: "2rem" }}>
@@ -1018,7 +1034,7 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
         </div>
 
         {/* Tickets table */}
-        <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.75rem" }}>
+        {saTab === "overview" && <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.75rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem", flexWrap: "wrap", gap: 12 }}>
             <div>
               <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 800, margin: "0 0 0.2rem" }}>{activeDept === "ALL" ? "All Tickets" : `${activeDept} Tickets`}</h2>
@@ -1059,7 +1075,93 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
                 );
               })}
           </div>
-        </div>
+        </div>}
+
+        {/* SUPER ADMIN — Response Generator Tab */}
+        {saTab === "responses" && (
+          <div style={{ animation: "fadeUp 0.3s ease" }}>
+            <div style={{ marginBottom: "1.5rem" }}>
+              <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 22, fontWeight: 800, color: "#fff", margin: "0 0 0.25rem" }}>Response Generator</h2>
+              <p style={{ fontSize: 14, color: "#475569", margin: 0 }}>Generate AI-powered tone responses for any ticket across all departments.</p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+              {/* All-department ticket selector */}
+              <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.5rem" }}>
+                <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 16, fontWeight: 800, color: "#fff", margin: "0 0 1rem" }}>All Tickets — Select to Respond</h3>
+                <div style={{ display: "flex", gap: 6, marginBottom: 14, flexWrap: "wrap" }}>
+                  {["ALL", ...DEPARTMENTS].map(d => {
+                    const idx = DEPARTMENTS.indexOf(d);
+                    const clr = idx >= 0 ? DEPT_COLORS[idx] : "#6366F1";
+                    return (
+                      <button key={d} onClick={() => setActiveDept(d)}
+                        style={{ padding: "4px 12px", borderRadius: 8, border: `1px solid ${activeDept === d ? clr : "rgba(255,255,255,0.1)"}`, background: activeDept === d ? clr + "30" : "rgba(255,255,255,0.04)", color: activeDept === d ? clr : "#64748B", fontSize: 11, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>{d}</button>
+                    );
+                  })}
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8, maxHeight: 500, overflowY: "auto" }}>
+                  {tickets.filter(tk => activeDept === "ALL" || tk.department === activeDept).map(tk => {
+                    const di = DEPARTMENTS.indexOf(tk.department);
+                    const dc = DEPT_COLORS[di] || "#6366F1";
+                    const isActive = saActiveTicket === tk.id;
+                    return (
+                      <div key={tk.id} onClick={() => setSaActiveTicket(isActive ? null : tk.id)}
+                        style={{ padding: "12px 14px", borderRadius: 12, border: `2px solid ${isActive ? "#A5B4FC" : "rgba(255,255,255,0.08)"}`, background: isActive ? "rgba(99,102,241,0.12)" : "rgba(255,255,255,0.03)", cursor: "pointer", transition: "all 0.15s", borderLeft: `4px solid ${dc}` }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 4 }}>
+                          <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                            <span style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{tk.userName}</span>
+                            <span style={{ fontSize: 10, fontWeight: 700, color: dc, background: dc + "25", padding: "1px 7px", borderRadius: 100 }}>{tk.department}</span>
+                          </div>
+                          <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                            {tk.response && <span style={{ fontSize: 10, color: "#10B981", fontWeight: 700 }}>✓</span>}
+                            <StatusBadge status={tk.status} dark={true} />
+                          </div>
+                        </div>
+                        <div style={{ fontSize: 11, color: "#475569", marginBottom: 3 }}>{tk.id} · {tk.date}</div>
+                        <div style={{ fontSize: 12, color: "#94A3B8", lineHeight: 1.5 }}>{tk.description.substring(0, 85)}{tk.description.length > 85 ? "…" : ""}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Response panel */}
+              <div>
+                {saActiveTicket ? (
+                  <div style={{ animation: "slideIn 0.25s ease" }}>
+                    {(() => {
+                      const tk = tickets.find(t => t.id === saActiveTicket);
+                      return tk ? (
+                        <>
+                          <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.25rem", marginBottom: 14 }}>
+                            <div style={{ fontSize: 11, color: "#64748B", fontWeight: 700, marginBottom: 6 }}>RESPONDING TO</div>
+                            <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 6 }}>
+                              <span style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>{tk.userName}</span>
+                              <span style={{ fontSize: 11, color: "#475569" }}>{tk.id}</span>
+                              <span style={{ fontSize: 11, fontWeight: 700, color: DEPT_COLORS[DEPARTMENTS.indexOf(tk.department)] || "#6366F1", background: (DEPT_COLORS[DEPARTMENTS.indexOf(tk.department)] || "#6366F1") + "25", padding: "1px 8px", borderRadius: 100 }}>{tk.department}</span>
+                            </div>
+                            <div style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.6 }}>{tk.description}</div>
+                          </div>
+                          <ResponsePanel ticket={tk} dark={true} onSave={saveResponse} />
+                        </>
+                      ) : null;
+                    })()}
+                  </div>
+                ) : (
+                  <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "4rem 2rem", textAlign: "center", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                    <div style={{ fontSize: 48, marginBottom: 16 }}>💬</div>
+                    <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 800, color: "#fff", marginBottom: 8 }}>Super Admin Response Generator</div>
+                    <div style={{ fontSize: 14, color: "#475569", lineHeight: 1.7, maxWidth: 300 }}>Select any ticket from any department to generate a tone-aware AI response. Only available to Super Admin.</div>
+                    <div style={{ display: "flex", gap: 8, marginTop: 20, flexWrap: "wrap", justifyContent: "center" }}>
+                      {Object.entries(TONE_CONFIG).map(([key, cfg]) => (
+                        <span key={key} style={{ padding: "6px 14px", borderRadius: 100, fontSize: 12, fontWeight: 700, background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }}>{cfg.emoji} {cfg.label}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
