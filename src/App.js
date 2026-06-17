@@ -15,16 +15,26 @@ const INITIAL_ADMINS = [
 ];
 
 const INITIAL_TICKETS = [
-  { id: "TKT-001", userId: "u1", userName: "Thabo Nkosi",    department: "IT",         description: "My laptop screen flickering and won't connect to the office Wi-Fi network.", status: "Resolved", date: "2025-05-20", response: null, responseTone: null },
-  { id: "TKT-002", userId: "u1", userName: "Thabo Nkosi",    department: "HR",         description: "I need to apply for annual leave for the last week of June.",                status: "Pending",  date: "2025-05-22", response: null, responseTone: null },
-  { id: "TKT-003", userId: "u2", userName: "Amara Dlamini",  department: "Finance",    description: "My expense claim from April has not been reimbursed yet.",                   status: "Open",     date: "2025-05-24", response: null, responseTone: null },
-  { id: "TKT-004", userId: "u2", userName: "Amara Dlamini",  department: "Operations", description: "The air conditioning in meeting room B3 is broken.",                        status: "Pending",  date: "2025-05-25", response: null, responseTone: null },
-  { id: "TKT-005", userId: "u3", userName: "Sipho Mthembu",  department: "IT",         description: "Cannot access the shared drive. Getting a permissions error.",              status: "Open",     date: "2025-05-26", response: null, responseTone: null },
-  { id: "TKT-006", userId: "u3", userName: "Sipho Mthembu",  department: "Finance",    description: "Need reimbursement for business travel to Cape Town last month.",           status: "Resolved", date: "2025-05-27", response: null, responseTone: null },
-  { id: "TKT-007", userId: "u1", userName: "Thabo Nkosi",    department: "Operations", description: "Parking bay 14 is being used by an unauthorised vehicle daily.",            status: "Open",     date: "2025-05-28", response: null, responseTone: null },
-  { id: "TKT-008", userId: "u2", userName: "Amara Dlamini",  department: "IT",         description: "Outlook keeps crashing every time I open a large attachment.",              status: "Pending",  date: "2025-05-29", response: null, responseTone: null },
-  { id: "TKT-009", userId: "u3", userName: "Sipho Mthembu",  department: "HR",         description: "Need a letter confirming my employment for a bank loan application.",       status: "Resolved", date: "2025-05-30", response: null, responseTone: null },
-  { id: "TKT-010", userId: "u1", userName: "Thabo Nkosi",    department: "Finance",    description: "My March salary was short by R800. Please investigate.",                   status: "Open",     date: "2025-05-31", response: null, responseTone: null },
+  { id: "TKT-001", userId: "u1", userName: "Thabo Nkosi",    department: "IT",         description: "My laptop screen flickering and won't connect to the office Wi-Fi network.", status: "Resolved", date: "2025-05-20", resolvedDate: "2025-05-21", response: null, responseTone: null },
+  { id: "TKT-002", userId: "u1", userName: "Thabo Nkosi",    department: "HR",         description: "I need to apply for annual leave for the last week of June.",                status: "Pending",  date: "2025-05-22", resolvedDate: null, response: null, responseTone: null },
+  { id: "TKT-003", userId: "u2", userName: "Amara Dlamini",  department: "Finance",    description: "My expense claim from April has not been reimbursed yet.",                   status: "Open",     date: "2025-05-24", resolvedDate: null, response: null, responseTone: null },
+  { id: "TKT-004", userId: "u2", userName: "Amara Dlamini",  department: "Operations", description: "The air conditioning in meeting room B3 is broken.",                        status: "Pending",  date: "2025-05-25", resolvedDate: null, response: null, responseTone: null },
+  { id: "TKT-005", userId: "u3", userName: "Sipho Mthembu",  department: "IT",         description: "Cannot access the shared drive. Getting a permissions error.",              status: "Open",     date: "2025-05-26", resolvedDate: null, response: null, responseTone: null },
+  { id: "TKT-006", userId: "u3", userName: "Sipho Mthembu",  department: "Finance",    description: "Need reimbursement for business travel to Cape Town last month.",           status: "Resolved", date: "2025-05-27", resolvedDate: "2025-05-29", response: null, responseTone: null },
+  { id: "TKT-007", userId: "u1", userName: "Thabo Nkosi",    department: "Operations", description: "Parking bay 14 is being used by an unauthorised vehicle daily.",            status: "Open",     date: "2025-05-28", resolvedDate: null, response: null, responseTone: null },
+  { id: "TKT-008", userId: "u2", userName: "Amara Dlamini",  department: "IT",         description: "Outlook keeps crashing every time I open a large attachment.",              status: "Pending",  date: "2025-05-29", resolvedDate: null, response: null, responseTone: null },
+  { id: "TKT-009", userId: "u3", userName: "Sipho Mthembu",  department: "HR",         description: "Need a letter confirming my employment for a bank loan application.",       status: "Resolved", date: "2025-05-30", resolvedDate: "2025-05-31", response: null, responseTone: null },
+  { id: "TKT-010", userId: "u1", userName: "Thabo Nkosi",    department: "Finance",    description: "My March salary was short by R800. Please investigate.",                   status: "Open",     date: "2025-05-31", resolvedDate: null, response: null, responseTone: null },
+  { id: "TKT-011", userId: "u2", userName: "Amara Dlamini",  department: "IT",         description: "VPN keeps disconnecting after 10 minutes of inactivity.",                  status: "Resolved", date: "2025-06-01", resolvedDate: "2025-06-02", response: null, responseTone: null },
+  { id: "TKT-012", userId: "u3", userName: "Sipho Mthembu",  department: "Operations", description: "The printer on the 3rd floor is jammed and won't clear.",                  status: "Resolved", date: "2025-06-01", resolvedDate: "2025-06-01", response: null, responseTone: null },
+  { id: "TKT-013", userId: "u1", userName: "Thabo Nkosi",    department: "HR",         description: "Need to update my banking details for payroll purposes.",                   status: "Resolved", date: "2025-06-02", resolvedDate: "2025-06-03", response: null, responseTone: null },
+  { id: "TKT-014", userId: "u2", userName: "Amara Dlamini",  department: "Finance",    description: "My travel reimbursement for May has not been processed yet.",              status: "Open",     date: "2025-06-03", resolvedDate: null, response: null, responseTone: null },
+  { id: "TKT-015", userId: "u3", userName: "Sipho Mthembu",  department: "IT",         description: "New laptop setup required — joining the Sandton office next week.",        status: "Pending",  date: "2025-06-04", resolvedDate: null, response: null, responseTone: null },
+  { id: "TKT-016", userId: "u1", userName: "Thabo Nkosi",    department: "Operations", description: "Motion sensor light in boardroom not working, needs replacement.",          status: "Open",     date: "2025-06-05", resolvedDate: null, response: null, responseTone: null },
+  { id: "TKT-017", userId: "u2", userName: "Amara Dlamini",  department: "HR",         description: "Requesting copy of updated employment contract following promotion.",       status: "Pending",  date: "2025-06-06", resolvedDate: null, response: null, responseTone: null },
+  { id: "TKT-018", userId: "u3", userName: "Sipho Mthembu",  department: "Finance",    description: "Petty cash request for team lunch next Friday — R450.",                    status: "Resolved", date: "2025-06-06", resolvedDate: "2025-06-07", response: null, responseTone: null },
+  { id: "TKT-019", userId: "u1", userName: "Thabo Nkosi",    department: "IT",         description: "Two-factor authentication not working on my phone after SIM swap.",        status: "Open",     date: "2025-06-07", resolvedDate: null, response: null, responseTone: null },
+  { id: "TKT-020", userId: "u2", userName: "Amara Dlamini",  department: "Operations", description: "Broken chair in open-plan area — health and safety concern.",              status: "Resolved", date: "2025-06-07", resolvedDate: "2025-06-08", response: null, responseTone: null },
 ];
 
 const INITIAL_USERS = [
@@ -46,6 +56,61 @@ const TONE_CONFIG = {
   friendly: { label: "Friendly", emoji: "😊", color: "#10B981", desc: "Warm & approachable",          bg: "rgba(16,185,129,0.12)",  border: "rgba(16,185,129,0.35)" },
   urgent:   { label: "Urgent",   emoji: "⚡", color: "#EF4444", desc: "Immediate action required",    bg: "rgba(239,68,68,0.12)",   border: "rgba(239,68,68,0.35)"  },
 };
+
+
+// ─── Week 3: Analytics Helpers ────────────────────────────────────────────────
+function computeAnalytics(tickets) {
+  const total = tickets.length;
+  const byDept = {};
+  const byStatus = { Open: 0, Pending: 0, Resolved: 0 };
+  const byDate = {};
+  const byWeek = {};
+  let totalResolutionDays = 0;
+  let resolvedCount = 0;
+
+  DEPARTMENTS.forEach(d => { byDept[d] = { total: 0, open: 0, pending: 0, resolved: 0, responseTimes: [] }; });
+
+  tickets.forEach(tk => {
+    byDept[tk.department].total++;
+    if (tk.status === "Open")     byDept[tk.department].open++;
+    if (tk.status === "Pending")  byDept[tk.department].pending++;
+    if (tk.status === "Resolved") byDept[tk.department].resolved++;
+    byStatus[tk.status] = (byStatus[tk.status] || 0) + 1;
+    byDate[tk.date] = (byDate[tk.date] || 0) + 1;
+
+    if (tk.resolvedDate && tk.date) {
+      const d1 = new Date(tk.date), d2 = new Date(tk.resolvedDate);
+      const days = Math.max(0, Math.round((d2 - d1) / 86400000));
+      byDept[tk.department].responseTimes.push(days);
+      totalResolutionDays += days;
+      resolvedCount++;
+    }
+
+    // Week grouping (Mon-Sun)
+    const d = new Date(tk.date);
+    const day = d.getDay();
+    const monday = new Date(d);
+    monday.setDate(d.getDate() - ((day === 0 ? 7 : day) - 1));
+    const wk = monday.toISOString().split("T")[0];
+    byWeek[wk] = (byWeek[wk] || 0) + 1;
+  });
+
+  const avgResolutionDays = resolvedCount > 0 ? (totalResolutionDays / resolvedCount).toFixed(1) : "N/A";
+  const resolutionRate = total > 0 ? Math.round((byStatus.Resolved / total) * 100) : 0;
+  const responseRate = total > 0 ? Math.round((tickets.filter(t => t.response).length / total) * 100) : 0;
+
+  const sortedDates = Object.keys(byDate).sort();
+  const last7 = sortedDates.slice(-7);
+  const trendData = last7.map(d => ({ date: d, count: byDate[d] }));
+
+  const sortedWeeks = Object.keys(byWeek).sort().slice(-4);
+  const weeklyData = sortedWeeks.map(w => ({ week: w, count: byWeek[w] }));
+
+  const topDept = Object.entries(byDept).sort((a, b) => b[1].total - a[1].total)[0]?.[0] || "N/A";
+  const mostOpenDept = Object.entries(byDept).sort((a, b) => b[1].open - a[1].open)[0]?.[0] || "N/A";
+
+  return { total, byDept, byStatus, trendData, weeklyData, avgResolutionDays, resolutionRate, responseRate, topDept, mostOpenDept };
+}
 
 // ─── Response Templates ───────────────────────────────────────────────────────
 const RESPONSE_TEMPLATES = {
@@ -299,6 +364,231 @@ function ResponsePanel({ ticket, dark, onSave }) {
   );
 }
 
+
+// ─── Week 3: Analytics Dashboard Component ────────────────────────────────────
+function AnalyticsMiniBar({ value, max, color, height = 8 }) {
+  return (
+    <div style={{ height, borderRadius: 100, background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
+      <div style={{ height: "100%", borderRadius: 100, background: color, width: `${Math.round((value / Math.max(max, 1)) * 100)}%`, transition: "width 0.6s ease" }} />
+    </div>
+  );
+}
+
+function TrendSparkline({ data, color = "#6366F1", dark }) {
+  if (!data || data.length < 2) return <div style={{ fontSize: 12, color: dark ? "#475569" : "#94A3B8", textAlign: "center", paddingTop: 20 }}>Not enough data</div>;
+  const W = 300, H = 80, padL = 8, padR = 8, padT = 12, padB = 20;
+  const cW = W - padL - padR, cH = H - padT - padB;
+  const max = Math.max(...data.map(d => d.count), 1);
+  const pts = data.map((d, i) => ({
+    x: padL + (i / Math.max(data.length - 1, 1)) * cW,
+    y: padT + cH - (d.count / max) * cH,
+    val: d.count, label: d.date ? d.date.slice(5) : d.week?.slice(5) || ""
+  }));
+  const poly = pts.map(p => `${p.x},${p.y}`).join(" ");
+  const area = `M ${pts[0].x},${padT + cH} ` + pts.map(p => `L ${p.x},${p.y}`).join(" ") + ` L ${pts[pts.length-1].x},${padT + cH} Z`;
+  const t = dark ? DARK : LIGHT;
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }}>
+      <defs>
+        <linearGradient id={`spark_${color.replace("#","")}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.35"/>
+          <stop offset="100%" stopColor={color} stopOpacity="0.02"/>
+        </linearGradient>
+      </defs>
+      <path d={area} fill={`url(#spark_${color.replace("#","")})`}/>
+      <polyline points={poly} fill="none" stroke={color} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round"/>
+      {pts.map((p, i) => (
+        <g key={i}>
+          <circle cx={p.x} cy={p.y} r="3.5" fill={color} stroke={dark ? "#1E293B" : "#fff"} strokeWidth="2"/>
+          <text x={p.x} y={H - 4} textAnchor="middle" fontSize="8" fill={dark ? "#475569" : "#94A3B8"}>{p.label}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function AnalyticsDashboard({ tickets, dark, scope = "ALL", dept = null }) {
+  const [summary, setSummary] = useState("");
+  const [summaryLoading, setSummaryLoading] = useState(false);
+  const [activeChart, setActiveChart] = useState("trend");
+  const t = dark ? DARK : LIGHT;
+  const CARD = dark ? "rgba(255,255,255,0.04)" : "#FFFFFF";
+  const CARDBORDER = dark ? "rgba(255,255,255,0.08)" : "#E2E8F0";
+  const BG = dark ? "rgba(255,255,255,0.02)" : "#F8FAFC";
+
+  const scopedTickets = scope === "ALL" ? tickets : tickets.filter(tk => tk.department === dept);
+  const a = computeAnalytics(scopedTickets);
+
+  const generateSummary = async () => {
+    setSummaryLoading(true);
+    setSummary("");
+    const statsPayload = {
+      scope: scope === "ALL" ? "All Departments" : dept,
+      total: a.total,
+      open: a.byStatus.Open,
+      pending: a.byStatus.Pending,
+      resolved: a.byStatus.Resolved,
+      resolutionRate: a.resolutionRate + "%",
+      avgResolutionDays: a.avgResolutionDays,
+      responseRate: a.responseRate + "%",
+      topDept: a.topDept,
+      mostOpenDept: a.mostOpenDept,
+      weeklyTrend: a.weeklyData.map(w => `Week of ${w.week}: ${w.count} tickets`).join(", "),
+      departmentBreakdown: Object.entries(a.byDept).map(([d, s]) => `${d}: ${s.total} total, ${s.open} open, ${s.resolved} resolved`).join(" | "),
+    };
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-6",
+          max_tokens: 1000,
+          system: "You are a business analytics assistant for OpsBridge, an internal support ticket platform. Generate a concise, professional weekly summary report (3-4 paragraphs, plain text, no markdown headers or bullets) based on the ticket data provided. Highlight key trends, areas of concern, and actionable recommendations. Keep the tone professional and data-driven.",
+          messages: [{ role: "user", content: `Generate a weekly analytics summary for OpsBridge based on this data: ${JSON.stringify(statsPayload)}` }]
+        })
+      });
+      const data = await res.json();
+      const text = data.content?.find(b => b.type === "text")?.text || "Unable to generate summary.";
+      setSummary(text);
+    } catch {
+      setSummary("Unable to connect to AI. Please check your connection and try again.");
+    }
+    setSummaryLoading(false);
+  };
+
+  const metricCards = [
+    { label: "Total Tickets",     value: a.total,              icon: "🎫", color: "#6366F1", sub: `${scope === "ALL" ? "Across all departments" : dept + " department"}` },
+    { label: "Resolution Rate",   value: a.resolutionRate + "%", icon: "✅", color: "#10B981", sub: `${a.byStatus.Resolved} resolved tickets` },
+    { label: "Avg Resolution",    value: a.avgResolutionDays === "N/A" ? "N/A" : a.avgResolutionDays + "d", icon: "⏱️", color: "#F59E0B", sub: "Average days to resolve" },
+    { label: "Response Coverage", value: a.responseRate + "%",  icon: "💬", color: "#8B5CF6", sub: `${tickets.filter(tk => tk.response && (scope === "ALL" || tk.department === dept)).length} tickets responded` },
+  ];
+
+  return (
+    <div style={{ animation: "fadeUp 0.3s ease" }}>
+      {/* Metric cards */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, marginBottom: 20 }}>
+        {metricCards.map(m => (
+          <div key={m.label} style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.25rem 1.5rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+              <div style={{ fontSize: 11, color: t.muted, fontWeight: 700, letterSpacing: 0.3 }}>{m.label.toUpperCase()}</div>
+              <span style={{ fontSize: 20 }}>{m.icon}</span>
+            </div>
+            <div style={{ fontSize: 30, fontWeight: 800, fontFamily: "'Syne',sans-serif", color: m.color, marginBottom: 8 }}>{m.value}</div>
+            <div style={{ fontSize: 11, color: t.muted }}>{m.sub}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Charts row */}
+      <div style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: 16, marginBottom: 16 }}>
+        {/* Left: Trend + chart toggle */}
+        <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.5rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+            <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 800, color: t.text, margin: 0 }}>
+              {activeChart === "trend" ? "7-Day Ticket Trend" : activeChart === "weekly" ? "Weekly Volume" : "Status Distribution"}
+            </h3>
+            <div style={{ display: "flex", gap: 5 }}>
+              {[["trend","📈"],["weekly","📅"],["status","🍩"]].map(([key, icon]) => (
+                <button key={key} onClick={() => setActiveChart(key)}
+                  style={{ padding: "4px 10px", borderRadius: 7, border: `1px solid ${activeChart === key ? "#6366F1" : CARDBORDER}`, background: activeChart === key ? (dark ? "rgba(99,102,241,0.2)" : "#EEF2FF") : "transparent", color: activeChart === key ? "#6366F1" : t.muted, fontSize: 12, cursor: "pointer", fontFamily: "inherit" }}>
+                  {icon}
+                </button>
+              ))}
+            </div>
+          </div>
+          {activeChart === "trend" && <TrendSparkline data={a.trendData} color="#6366F1" dark={dark} />}
+          {activeChart === "weekly" && <TrendSparkline data={a.weeklyData} color="#10B981" dark={dark} />}
+          {activeChart === "status" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 14, paddingTop: 8 }}>
+              {[["Open","#F59E0B",a.byStatus.Open],["Pending","#3B82F6",a.byStatus.Pending],["Resolved","#10B981",a.byStatus.Resolved]].map(([label,clr,val]) => (
+                <div key={label}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: t.text }}>{label}</span>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: clr }}>{val} <span style={{ color: t.muted, fontWeight: 400, fontSize: 11 }}>({a.total ? Math.round(val/a.total*100) : 0}%)</span></span>
+                  </div>
+                  <AnalyticsMiniBar value={val} max={a.total} color={clr} height={10} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Right: Department breakdown */}
+        <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.5rem" }}>
+          <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 800, color: t.text, margin: "0 0 1rem" }}>By Department</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {DEPARTMENTS.map((d, i) => {
+              const ds = a.byDept[d];
+              const clr = DEPT_COLORS[i];
+              return (
+                <div key={d}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: t.text }}>{d}</span>
+                    <div style={{ display: "flex", gap: 8, fontSize: 11 }}>
+                      <span style={{ color: "#F59E0B" }}>{ds.open} open</span>
+                      <span style={{ color: "#3B82F6" }}>{ds.pending} pend</span>
+                      <span style={{ color: "#10B981" }}>{ds.resolved} done</span>
+                      <span style={{ fontWeight: 800, color: clr }}>{ds.total}</span>
+                    </div>
+                  </div>
+                  <AnalyticsMiniBar value={ds.total} max={a.total} color={clr} height={8} />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Insights row */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14, marginBottom: 16 }}>
+        <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 14, padding: "1.25rem" }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: t.muted, letterSpacing: 0.4, marginBottom: 8 }}>BUSIEST DEPARTMENT</div>
+          <div style={{ fontSize: 22, fontWeight: 800, fontFamily: "'Syne',sans-serif", color: DEPT_COLORS[DEPARTMENTS.indexOf(a.topDept)] || "#6366F1", marginBottom: 4 }}>{a.topDept}</div>
+          <div style={{ fontSize: 11, color: t.muted }}>{a.byDept[a.topDept]?.total || 0} tickets total</div>
+        </div>
+        <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 14, padding: "1.25rem" }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: t.muted, letterSpacing: 0.4, marginBottom: 8 }}>MOST OPEN BACKLOG</div>
+          <div style={{ fontSize: 22, fontWeight: 800, fontFamily: "'Syne',sans-serif", color: "#F59E0B", marginBottom: 4 }}>{a.mostOpenDept}</div>
+          <div style={{ fontSize: 11, color: t.muted }}>{a.byDept[a.mostOpenDept]?.open || 0} unresolved tickets</div>
+        </div>
+        <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 14, padding: "1.25rem" }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: t.muted, letterSpacing: 0.4, marginBottom: 8 }}>RESPONDED TICKETS</div>
+          <div style={{ fontSize: 22, fontWeight: 800, fontFamily: "'Syne',sans-serif", color: "#8B5CF6", marginBottom: 4 }}>{a.responseRate}%</div>
+          <div style={{ fontSize: 11, color: t.muted }}>{tickets.filter(tk => tk.response && (scope === "ALL" || tk.department === dept)).length} of {a.total} have responses</div>
+        </div>
+      </div>
+
+      {/* AI Weekly Summary */}
+      <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.75rem" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 16, fontWeight: 800, color: t.text, margin: 0 }}>AI Weekly Summary</h3>
+              <span style={{ fontSize: 9, background: "linear-gradient(135deg,#6366F1,#8B5CF6)", color: "#fff", padding: "2px 8px", borderRadius: 100, fontWeight: 700 }}>CLAUDE AI</span>
+            </div>
+            <p style={{ fontSize: 12, color: t.muted, margin: "4px 0 0" }}>Generate a professional analytics report from current ticket data</p>
+          </div>
+          <button onClick={generateSummary} disabled={summaryLoading}
+            style={{ padding: "10px 22px", background: summaryLoading ? (dark ? "#334155" : "#E2E8F0") : "linear-gradient(135deg,#6366F1,#8B5CF6)", border: "none", borderRadius: 11, color: summaryLoading ? t.muted : "#fff", fontSize: 13, fontWeight: 700, cursor: summaryLoading ? "not-allowed" : "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", gap: 8 }}>
+            {summaryLoading ? <><span style={{ display: "inline-block", animation: "spin 1s linear infinite" }}>⏳</span> Generating…</> : "✨ Generate Report"}
+          </button>
+        </div>
+        {summary ? (
+          <div style={{ background: BG, borderRadius: 12, padding: "1.25rem 1.5rem", fontSize: 13, lineHeight: 1.85, color: t.text, border: `1px solid ${CARDBORDER}`, whiteSpace: "pre-wrap" }}>
+            {summary}
+          </div>
+        ) : (
+          <div style={{ background: BG, borderRadius: 12, padding: "2rem", textAlign: "center", border: `1px dashed ${CARDBORDER}` }}>
+            <div style={{ fontSize: 32, marginBottom: 10 }}>✨</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: t.text, marginBottom: 6 }}>Ready to generate</div>
+            <div style={{ fontSize: 13, color: t.muted }}>Click "Generate Report" to produce an AI-powered analysis of current ticket trends, backlog health, and recommendations.</div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 const GLOBAL_STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap');
   * { box-sizing: border-box; }
@@ -341,7 +631,7 @@ function LandingPage({ onNav }) {
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 34, height: 34, borderRadius: 9, background: "linear-gradient(135deg,#6366F1,#8B5CF6)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 17, boxShadow: "0 4px 14px rgba(99,102,241,0.4)" }}>🌉</div>
           <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 18, letterSpacing: -0.5 }}>OpsBridge</span>
-         
+          <span style={{ fontSize: 10, background: "linear-gradient(135deg,#6366F1,#8B5CF6)", color: "#fff", padding: "2px 8px", borderRadius: 100, fontWeight: 700, marginLeft: 4 }}>v2.0</span>
         </div>
         <div style={{ display: "flex", gap: 10 }}>
           <button className="ghost" onClick={() => onNav("login")} style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", borderRadius: 10, padding: "8px 22px", fontSize: 14, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" }}>Sign In</button>
@@ -350,14 +640,16 @@ function LandingPage({ onNav }) {
       </nav>
 
       <div style={{ maxWidth: 860, margin: "0 auto", padding: "8rem 2rem 5rem", textAlign: "center", animation: "fadeUp 0.7s ease" }}>
-       
+        {/* Week 2 badge */}
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(16,185,129,0.12)", border: "1px solid rgba(16,185,129,0.3)", borderRadius: 100, padding: "6px 16px", marginBottom: "1.5rem", fontSize: 12, fontWeight: 700, color: "#6EE7B7" }}>
+          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#10B981", display: "inline-block" }} />
+          WEEK 2 — AI RESPONSE GENERATOR ADDED
+        </div>
         <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: "clamp(2.8rem,7vw,5.2rem)", fontWeight: 800, lineHeight: 1.06, letterSpacing: -2.5, margin: "0 0 1.5rem", background: "linear-gradient(140deg,#fff 30%,#A5B4FC 75%,#8B5CF6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
           The Bridge Between<br />Your Team & Support
         </h1>
-      <p style={{ fontSize: 18, color: "#94A3B8", lineHeight: 1.75, maxWidth: 560, margin: "0 auto 3rem" }}>
-        Turn complex support requests into action. OpsBridge classifies, routes, and  
-         <strong style={{ color: "#A5B4FC" }}> creates ready-to-send responses automatically.
-        </strong>
+        <p style={{ fontSize: 18, color: "#94A3B8", lineHeight: 1.75, maxWidth: 560, margin: "0 auto 3rem" }}>
+          Describe your issue in plain English. OpsBridge classifies, routes, and now <strong style={{ color: "#A5B4FC" }}>automatically generates professional responses</strong> — instantly.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <button className="hero-cta" onClick={() => onNav("register")} style={{ background: "linear-gradient(135deg,#6366F1,#8B5CF6)", border: "none", color: "#fff", borderRadius: 14, padding: "15px 36px", fontSize: 16, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", boxShadow: "0 6px 24px rgba(99,102,241,0.35)" }}>Get Started →</button>
@@ -365,20 +657,22 @@ function LandingPage({ onNav }) {
         </div>
       </div>
 
-            {/* Floating demo card */}
-      <div style={{ maxWidth: 640, margin: "0 auto 6rem", padding: "0 2rem", animation: "float 6s ease-in-out infinite" }}>
+      {/* Demo card showing response generator */}
+      <div style={{ maxWidth: 680, margin: "0 auto 6rem", padding: "0 2rem", animation: "float 6s ease-in-out infinite" }}>
         <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 22, padding: "2rem", backdropFilter: "blur(10px)" }}>
-          <div style={{ fontSize: 12, color: "#475569", fontWeight: 600, letterSpacing: 0.5, marginBottom: 10 }}>INCOMING REQUEST</div>
-          <div style={{ background: "rgba(255,255,255,0.05)", borderRadius: 12, padding: "1rem 1.25rem", fontSize: 15, color: "#CBD5E1", fontStyle: "italic", marginBottom: "1.5rem", lineHeight: 1.65, borderLeft: "3px solid rgba(99,102,241,0.5)" }}>
+          <div style={{ fontSize: 12, color: "#475569", fontWeight: 600, letterSpacing: 0.5, marginBottom: 10 }}>AI RESPONSE GENERATOR — WEEK 2</div>
+          <div style={{ background: "rgba(255,255,255,0.05)", borderRadius: 12, padding: "1rem 1.25rem", fontSize: 14, color: "#CBD5E1", fontStyle: "italic", marginBottom: "1.25rem", borderLeft: "3px solid rgba(99,102,241,0.5)", lineHeight: 1.6 }}>
             "My laptop won't connect to the office Wi-Fi and I can't access my emails..."
           </div>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            {DEPARTMENTS.map((d, i) => (
-              <div key={d} className="pill" style={{ padding: "6px 16px", borderRadius: 100, fontSize: 12, fontWeight: 700, background: i === 0 ? "rgba(99,102,241,0.25)" : "rgba(255,255,255,0.04)", border: `1px solid ${i === 0 ? "rgba(99,102,241,0.55)" : "rgba(255,255,255,0.08)"}`, color: i === 0 ? "#A5B4FC" : "#334155" }}>
-                {i === 0 ? "✓ " : ""}{d}
+          <div style={{ display: "flex", gap: 6, marginBottom: "1.25rem" }}>
+            {Object.entries(TONE_CONFIG).map(([key, cfg]) => (
+              <div key={key} className="pill" style={{ padding: "5px 14px", borderRadius: 100, fontSize: 11, fontWeight: 700, background: key === "formal" ? cfg.bg : "rgba(255,255,255,0.04)", border: `1px solid ${key === "formal" ? cfg.border : "rgba(255,255,255,0.08)"}`, color: key === "formal" ? cfg.color : "#334155" }}>
+                {cfg.emoji} {cfg.label}
               </div>
             ))}
-            <div style={{ padding: "6px 16px", borderRadius: 100, fontSize: 12, fontWeight: 700, background: "rgba(16,185,129,0.15)", border: "1px solid rgba(16,185,129,0.35)", color: "#6EE7B7", marginLeft: "auto" }}>Routed ⚡</div>
+          </div>
+          <div style={{ background: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.2)", borderRadius: 10, padding: "10px 14px", fontSize: 12, color: "#6EE7B7", fontFamily: "monospace", lineHeight: 1.6 }}>
+            "Dear Thabo, Thank you for contacting the IT Support Department. Your ticket has been logged and a qualified technician has been allocated..."
           </div>
         </div>
       </div>
@@ -387,7 +681,7 @@ function LandingPage({ onNav }) {
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 2rem 8rem" }}>
         <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
           <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 34, fontWeight: 800, letterSpacing: -1.5, margin: "0 0 0.5rem" }}>Now with intelligent responses</h2>
-          <p style={{ color: "#475569", fontSize: 16 }}></p>
+          <p style={{ color: "#475569", fontSize: 16 }}>Sprint 2 adds AI-powered communication to every ticket</p>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 16 }}>
           {[
@@ -411,7 +705,7 @@ function LandingPage({ onNav }) {
       </div>
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "2rem", textAlign: "center", fontSize: 12, color: "#1E293B" }}>
-        © 2025 OpsBridge · Capaciti Tech Career Accelerator ·
+        © 2025 OpsBridge · Capaciti Tech Career Accelerator · Sprint 2
       </div>
     </div>
   );
@@ -693,11 +987,12 @@ function AdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }) {
       <div style={{ background: t.headerBg, borderBottom: `1px solid ${t.border}`, display: "flex", padding: "0 2rem" }}>
         {[
           { key: "tickets",   label: `🎫 Ticket Queue (${deptTickets.length})` },
-          { key: "responses", label: `💬 Response Generator` },
+          { key: "responses", label: `💬 Response Generator`, badge: "W2" },
+          { key: "analytics", label: `📊 Analytics Dashboard`, badge: "W3" },
         ].map(tb => (
           <button key={tb.key} onClick={() => setActiveTab(tb.key)} style={{ padding: "14px 20px", border: "none", borderBottom: activeTab === tb.key ? "2px solid #6366F1" : "2px solid transparent", background: "none", fontSize: 14, fontWeight: activeTab === tb.key ? 700 : 500, color: activeTab === tb.key ? "#6366F1" : t.muted, cursor: "pointer", fontFamily: "inherit", transition: "all 0.15s" }}>
             {tb.label}
-            {tb.key === "responses" && <span style={{ marginLeft: 6, fontSize: 9, background: "linear-gradient(135deg,#6366F1,#8B5CF6)", color: "#fff", padding: "2px 6px", borderRadius: 100, fontWeight: 700 }}>WEEK 2</span>}
+            {tb.badge && <span style={{ marginLeft: 6, fontSize: 9, background: "linear-gradient(135deg,#6366F1,#8B5CF6)", color: "#fff", padding: "2px 6px", borderRadius: 100, fontWeight: 700 }}>{tb.badge}</span>}
           </button>
         ))}
       </div>
@@ -816,7 +1111,7 @@ function AdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }) {
                 {activeTicket ? (
                   <div style={{ animation: "slideIn 0.25s ease" }}>
                     {(() => {
-                      const tk = tickets.find(t => t.id === activeTicket);
+                      const tk = tickets.find(ticket => ticket.id === activeTicket);
                       return tk ? (
                         <>
                           {/* Ticket summary */}
@@ -844,6 +1139,17 @@ function AdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }) {
                 )}
               </div>
             </div>
+          </div>
+        )}
+
+        {/* ANALYTICS TAB — Week 3 */}
+        {activeTab === "analytics" && (
+          <div style={{ animation: "fadeUp 0.3s ease" }}>
+            <div style={{ marginBottom: "1.5rem" }}>
+              <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: 24, fontWeight: 800, color: t.text, margin: "0 0 0.25rem" }}>{user.department} Analytics</h1>
+              <p style={{ fontSize: 14, color: t.muted, margin: 0 }}>Ticket trends, resolution metrics, and AI-generated insights for your department.</p>
+            </div>
+            <AnalyticsDashboard tickets={tickets} dark={dark} scope="DEPT" dept={user.department} />
           </div>
         )}
       </div>
@@ -914,6 +1220,204 @@ function LineChart({ tickets, dark }) {
 }
 
 // ─── Super Admin Portal ───────────────────────────────────────────────────────
+
+// ─── Super Admin Analytics — Week 3: 3-chart focused view ────────────────────
+function SAAnalyticsDashboard({ tickets, dark, CARD, CARDBORDER }) {
+  const t = dark ? DARK : LIGHT;
+  const BG = dark ? "rgba(255,255,255,0.02)" : "#F8FAFC";
+
+  // ── Weekly trend data (last 6 weeks) ──────────────────────────────────────
+  const byWeek = {};
+  tickets.forEach(tk => {
+    const d = new Date(tk.date);
+    const day = d.getDay();
+    const mon = new Date(d);
+    mon.setDate(d.getDate() - ((day === 0 ? 7 : day) - 1));
+    const wk = mon.toISOString().split("T")[0];
+    byWeek[wk] = (byWeek[wk] || 0) + 1;
+  });
+  const weekKeys = Object.keys(byWeek).sort().slice(-6);
+  const weeklyData = weekKeys.map(w => ({ label: w.slice(5), count: byWeek[w] }));
+
+  // ── Pie: ticket category distribution ────────────────────────────────────
+  const deptTotals = DEPARTMENTS.map((d, i) => ({
+    dept: d, color: DEPT_COLORS[i],
+    count: tickets.filter(tk => tk.department === d).length,
+  }));
+  const totalTickets = tickets.length || 1;
+
+  // ── Bar: avg resolution time per department ───────────────────────────────
+  const avgResolution = DEPARTMENTS.map((d, i) => {
+    const resolved = tickets.filter(tk => tk.department === d && tk.resolvedDate && tk.date);
+    const avg = resolved.length === 0 ? 0 :
+      resolved.reduce((sum, tk) => {
+        const days = Math.max(0, (new Date(tk.resolvedDate) - new Date(tk.date)) / 86400000);
+        return sum + days;
+      }, 0) / resolved.length;
+    return { dept: d, color: DEPT_COLORS[i], avg: parseFloat(avg.toFixed(1)), count: resolved.length };
+  });
+  const maxAvg = Math.max(...avgResolution.map(d => d.avg), 1);
+
+  // ── Line chart renderer ───────────────────────────────────────────────────
+  const renderLine = () => {
+    if (weeklyData.length < 2) return <div style={{ padding: "2rem", textAlign: "center", color: "#475569", fontSize: 13 }}>Not enough data yet</div>;
+    const W = 560, H = 220, pL = 44, pR = 16, pT = 24, pB = 36;
+    const cW = W - pL - pR, cH = H - pT - pB;
+    const maxV = Math.max(...weeklyData.map(d => d.count), 1);
+    const yTicks = [0, Math.ceil(maxV / 2), maxV];
+    const pts = weeklyData.map((d, i) => ({
+      x: pL + (i / Math.max(weeklyData.length - 1, 1)) * cW,
+      y: pT + cH - (d.count / maxV) * cH,
+      val: d.count, label: d.label,
+    }));
+    const poly = pts.map(p => `${p.x},${p.y}`).join(" ");
+    const area = `M ${pts[0].x},${pT + cH} ` + pts.map(p => `L ${p.x},${p.y}`).join(" ") + ` L ${pts[pts.length-1].x},${pT + cH} Z`;
+    const gridColor = dark ? "#334155" : "#E2E8F0";
+    const axisColor = dark ? "#475569" : "#CBD5E1";
+    const mutedC = dark ? "#94A3B8" : "#64748B";
+    return (
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }}>
+        <defs>
+          <linearGradient id="wkGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#6366F1" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#6366F1" stopOpacity="0.02" />
+          </linearGradient>
+        </defs>
+        {yTicks.map((v, i) => {
+          const y = pT + cH - (v / maxV) * cH;
+          return (
+            <g key={i}>
+              <line x1={pL} y1={y} x2={pL + cW} y2={y} stroke={gridColor} strokeWidth="1" strokeDasharray="4 3" />
+              <text x={pL - 6} y={y + 4} textAnchor="end" fontSize="10" fill={mutedC}>{v}</text>
+            </g>
+          );
+        })}
+        <line x1={pL} y1={pT} x2={pL} y2={pT + cH} stroke={axisColor} strokeWidth="1.5" />
+        <line x1={pL} y1={pT + cH} x2={pL + cW} y2={pT + cH} stroke={axisColor} strokeWidth="1.5" />
+        <path d={area} fill="url(#wkGrad)" />
+        <polyline points={poly} fill="none" stroke="#6366F1" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+        {pts.map((p, i) => (
+          <g key={i}>
+            <circle cx={p.x} cy={p.y} r="5" fill="#6366F1" stroke={dark ? "#0A0F1E" : "#fff"} strokeWidth="2.5" />
+            <text x={p.x} y={p.y - 10} textAnchor="middle" fontSize="10" fontWeight="700" fill="#6366F1">{p.val}</text>
+            <text x={p.x} y={pT + cH + 16} textAnchor="middle" fontSize="9" fill={mutedC}>{p.label}</text>
+          </g>
+        ))}
+        <text x={10} y={pT + cH / 2} textAnchor="middle" fontSize="9" fill={mutedC} transform={`rotate(-90,10,${pT + cH / 2})`}>Tickets</text>
+      </svg>
+    );
+  };
+
+  // ── Donut pie chart renderer ──────────────────────────────────────────────
+  const renderPie = () => {
+    const cx = 100, cy = 100, R = 80, ir = 45;
+    let angle = -Math.PI / 2;
+    const slices = deptTotals.map(d => {
+      const pct = d.count / totalTickets;
+      const start = angle;
+      angle += pct * 2 * Math.PI;
+      return { ...d, pct, start, end: angle };
+    });
+    const donut = (R2, rr, s, e) => {
+      const x1o = cx + R2 * Math.cos(s), y1o = cy + R2 * Math.sin(s);
+      const x2o = cx + R2 * Math.cos(e), y2o = cy + R2 * Math.sin(e);
+      const x1i = cx + rr * Math.cos(e), y1i = cy + rr * Math.sin(e);
+      const x2i = cx + rr * Math.cos(s), y2i = cy + rr * Math.sin(s);
+      const lg = e - s > Math.PI ? 1 : 0;
+      return `M ${x1o} ${y1o} A ${R2} ${R2} 0 ${lg} 1 ${x2o} ${y2o} L ${x1i} ${y1i} A ${rr} ${rr} 0 ${lg} 0 ${x2i} ${y2i} Z`;
+    };
+    const mutedC = dark ? "#94A3B8" : "#64748B";
+    const textC = dark ? "#F1F5F9" : "#111827";
+    return (
+      <svg viewBox="0 0 340 200" style={{ width: "100%", height: "auto", display: "block" }}>
+        {slices.map((s, i) => (
+          <path key={i} d={s.pct > 0.01 ? donut(R, ir, s.start, s.end) : ""} fill={s.color} opacity="0.92" />
+        ))}
+        <circle cx={cx} cy={cy} r={ir - 3} fill={dark ? "#0A0F1E" : "#fff"} />
+        <text x={cx} y={cy - 5} textAnchor="middle" fontSize="16" fontWeight="800" fill={textC}>{totalTickets}</text>
+        <text x={cx} y={cy + 12} textAnchor="middle" fontSize="9" fill={mutedC}>Total</text>
+        {slices.map((s, i) => (
+          <g key={i} transform={`translate(215,${24 + i * 42})`}>
+            <rect x="0" y="0" width="12" height="12" rx="3" fill={s.color} />
+            <text x="18" y="10" fontSize="11" fontWeight="700" fill={textC}>{s.dept}</text>
+            <text x="18" y="23" fontSize="10" fill={mutedC}>{s.count} tickets · {Math.round(s.pct * 100)}%</text>
+          </g>
+        ))}
+      </svg>
+    );
+  };
+
+  // ── Horizontal bar chart: avg resolution time ─────────────────────────────
+  const renderResolutionBars = () => {
+    const mutedC = dark ? "#94A3B8" : "#64748B";
+    const textC = dark ? "#F1F5F9" : "#111827";
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 18, padding: "8px 0" }}>
+        {avgResolution.map((d, i) => (
+          <div key={d.dept}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 7 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ width: 10, height: 10, borderRadius: "50%", background: d.color }} />
+                <span style={{ fontSize: 13, fontWeight: 700, color: textC }}>{d.dept}</span>
+                <span style={{ fontSize: 11, color: mutedC }}>({d.count} resolved)</span>
+              </div>
+              <span style={{ fontSize: 13, fontWeight: 800, color: d.color }}>
+                {d.count === 0 ? "—" : `${d.avg}d`}
+              </span>
+            </div>
+            <div style={{ height: 14, borderRadius: 100, background: dark ? "rgba(255,255,255,0.07)" : "#F1F5F9", overflow: "hidden" }}>
+              <div style={{
+                height: "100%", borderRadius: 100,
+                background: `linear-gradient(90deg, ${d.color}CC, ${d.color})`,
+                width: d.count === 0 ? "4px" : `${Math.round((d.avg / maxAvg) * 100)}%`,
+                transition: "width 0.7s ease",
+                boxShadow: `0 0 8px ${d.color}60`,
+              }} />
+            </div>
+          </div>
+        ))}
+        <div style={{ fontSize: 11, color: dark ? "#475569" : "#94A3B8", marginTop: 4 }}>
+          * Days from ticket submission to resolution
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+      {/* Row 1: Weekly trend (full width) */}
+      <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.5rem" }}>
+        <div style={{ marginBottom: "1rem" }}>
+          <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 800, color: "#fff", margin: "0 0 4px" }}>Weekly Ticket Volume Trend</h3>
+          <p style={{ fontSize: 12, color: "#475569", margin: 0 }}>Total tickets submitted per week across all departments</p>
+        </div>
+        {renderLine()}
+      </div>
+
+      {/* Row 2: Pie + Bar side by side */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+        {/* Pie: ticket category distribution */}
+        <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.5rem" }}>
+          <div style={{ marginBottom: "1rem" }}>
+            <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 800, color: "#fff", margin: "0 0 4px" }}>Ticket Category Distribution</h3>
+            <p style={{ fontSize: 12, color: "#475569", margin: 0 }}>Proportion of tickets per department</p>
+          </div>
+          {renderPie()}
+        </div>
+
+        {/* Bar: avg resolution time by dept */}
+        <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.5rem" }}>
+          <div style={{ marginBottom: "1rem" }}>
+            <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 800, color: "#fff", margin: "0 0 4px" }}>Avg Resolution Time by Department</h3>
+            <p style={{ fontSize: 12, color: "#475569", margin: 0 }}>Average days from open to resolved</p>
+          </div>
+          {renderResolutionBars()}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }) {
   const [activeDept, setActiveDept] = useState("ALL");
   const [filter, setFilter] = useState("All");
@@ -955,82 +1459,71 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
       {/* Super Admin Sub-nav */}
       <div style={{ background: "rgba(0,0,0,0.2)", borderBottom: "1px solid rgba(255,255,255,0.07)", display: "flex", padding: "0 2rem", backdropFilter: "blur(10px)" }}>
         {[
-          { key: "overview", label: "📊 Command Centre" },
-          { key: "responses", label: "💬 Response Generator" },
+          { key: "overview",  label: "🗂️ Command Centre" },
+          { key: "responses", label: "💬 Response Generator", badge: "W2" },
+          { key: "analytics", label: "📊 Analytics Dashboard", badge: "W3" },
         ].map(tb => (
           <button key={tb.key} onClick={() => setSaTab(tb.key)} style={{ padding: "14px 20px", border: "none", borderBottom: saTab === tb.key ? "2px solid #A5B4FC" : "2px solid transparent", background: "none", fontSize: 14, fontWeight: saTab === tb.key ? 700 : 500, color: saTab === tb.key ? "#A5B4FC" : "#475569", cursor: "pointer", fontFamily: "inherit", transition: "all 0.15s" }}>
             {tb.label}
-            {tb.key === "responses" && <span style={{ marginLeft: 6, fontSize: 9, background: "linear-gradient(135deg,#6366F1,#8B5CF6)", color: "#fff", padding: "2px 6px", borderRadius: 100, fontWeight: 700 }}>WEEK 2</span>}
+            {tb.badge && <span style={{ marginLeft: 6, fontSize: 9, background: "linear-gradient(135deg,#6366F1,#8B5CF6)", color: "#fff", padding: "2px 6px", borderRadius: 100, fontWeight: 700 }}>{tb.badge}</span>}
           </button>
         ))}
       </div>
 
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "2.5rem 1.5rem" }}>
-        <div style={{ marginBottom: "2rem" }}>
-          <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: 28, fontWeight: 800, margin: "0 0 0.35rem", background: "linear-gradient(135deg,#fff,#A5B4FC)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Command Centre</h1>
-          <p style={{ fontSize: 14, color: "#475569", margin: 0 }}>Full visibility across all departments, tickets, and AI responses.</p>
-        </div>
 
-        {/* Global stats — now 5 */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 14, marginBottom: "1.5rem" }}>
-          {[
-            { label: "Total Tickets", value: total,     color: "#6366F1", icon: "🎫" },
-            { label: "Open",          value: open,      color: "#F59E0B", icon: "🔓" },
-            { label: "Pending",       value: pending,   color: "#3B82F6", icon: "⏳" },
-            { label: "Resolved",      value: resolved,  color: "#10B981", icon: "✅" },
-            { label: "Responded",     value: responded, color: "#8B5CF6", icon: "💬" },
-          ].map(s => (
-            <div key={s.label} style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.5rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
-                <div style={{ fontSize: 11, color: "#64748B", fontWeight: 700, letterSpacing: 0.5 }}>{s.label.toUpperCase()}</div>
-                <span style={{ fontSize: 20 }}>{s.icon}</span>
-              </div>
-              <div style={{ fontSize: 34, fontWeight: 800, fontFamily: "'Syne',sans-serif", color: "#fff", marginBottom: 14 }}>{s.value}</div>
-              <div style={{ height: 4, borderRadius: 100, background: "rgba(255,255,255,0.08)" }}>
-                <div style={{ height: "100%", borderRadius: 100, background: s.color, width: total ? `${(s.value / total) * 100}%` : "0%", transition: "width 0.6s ease", boxShadow: `0 0 8px ${s.color}60` }} />
-              </div>
+        {/* ══════════════════ PAGE 1: COMMAND CENTRE ══════════════════ */}
+        {saTab === "overview" && (
+          <div style={{ animation: "fadeUp 0.3s ease" }}>
+            <div style={{ marginBottom: "2rem" }}>
+              <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: 28, fontWeight: 800, margin: "0 0 0.35rem", background: "linear-gradient(135deg,#fff,#A5B4FC)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Command Centre</h1>
+              <p style={{ fontSize: 14, color: "#475569", margin: 0 }}>Full visibility across all departments, tickets, and AI responses.</p>
             </div>
-          ))}
-        </div>
 
-        {/* Dept cards */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, marginBottom: "1.5rem" }}>
-          {deptStats.map(d => (
-            <div key={d.dept} className="sa-card" onClick={() => setActiveDept(activeDept === d.dept ? "ALL" : d.dept)} style={{ background: activeDept === d.dept ? `${d.color}22` : CARD, border: `1px solid ${activeDept === d.dept ? d.color + "60" : CARDBORDER}`, borderRadius: 16, padding: "1.25rem", cursor: "pointer" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                <div style={{ fontSize: 13, fontWeight: 800, color: d.color, fontFamily: "'Syne',sans-serif" }}>{d.dept}</div>
-                <div style={{ fontSize: 20, fontWeight: 800, color: "#fff", fontFamily: "'Syne',sans-serif" }}>{d.total}</div>
-              </div>
-              <div style={{ height: 4, borderRadius: 100, background: "rgba(255,255,255,0.08)", marginBottom: 12 }}>
-                <div style={{ height: "100%", borderRadius: 100, background: d.color, width: `${Math.round((d.total / Math.max(...deptStats.map(x => x.total), 1)) * 100)}%` }} />
-              </div>
-              <div style={{ display: "flex", gap: 8, fontSize: 11 }}>
-                <span style={{ color: "#F59E0B" }}>● {d.open} open</span>
-                <span style={{ color: "#3B82F6" }}>● {d.pending} pend</span>
-                <span style={{ color: "#10B981" }}>● {d.resolved} done</span>
-              </div>
+            {/* Global stats */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 14, marginBottom: "1.5rem" }}>
+              {[
+                { label: "Total Tickets", value: total,     color: "#6366F1", icon: "🎫" },
+                { label: "Open",          value: open,      color: "#F59E0B", icon: "🔓" },
+                { label: "Pending",       value: pending,   color: "#3B82F6", icon: "⏳" },
+                { label: "Resolved",      value: resolved,  color: "#10B981", icon: "✅" },
+                { label: "Responded",     value: responded, color: "#8B5CF6", icon: "💬" },
+              ].map(s => (
+                <div key={s.label} style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.5rem" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
+                    <div style={{ fontSize: 11, color: "#64748B", fontWeight: 700, letterSpacing: 0.5 }}>{s.label.toUpperCase()}</div>
+                    <span style={{ fontSize: 20 }}>{s.icon}</span>
+                  </div>
+                  <div style={{ fontSize: 34, fontWeight: 800, fontFamily: "'Syne',sans-serif", color: "#fff", marginBottom: 14 }}>{s.value}</div>
+                  <div style={{ height: 4, borderRadius: 100, background: "rgba(255,255,255,0.08)" }}>
+                    <div style={{ height: "100%", borderRadius: 100, background: s.color, width: total ? `${(s.value / total) * 100}%` : "0%", transition: "width 0.6s ease", boxShadow: `0 0 8px ${s.color}60` }} />
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* Charts */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: "1.5rem" }}>
-          <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.25rem" }}>
-            <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 14, fontWeight: 800, margin: "0 0 1rem", color: "#fff" }}>Volume by Department</h3>
-            <BarChart deptStats={deptStats} dark={dark} />
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.25rem" }}>
-            <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 14, fontWeight: 800, margin: "0 0 1rem", color: "#fff" }}>Distribution</h3>
-            <PieChart deptStats={deptStats} dark={dark} />
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.25rem" }}>
-            <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 14, fontWeight: 800, margin: "0 0 1rem", color: "#fff" }}>Ticket Trend</h3>
-            <LineChart tickets={tickets} dark={dark} />
-          </div>
-        </div>
+            {/* Dept cards */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, marginBottom: "1.5rem" }}>
+              {deptStats.map(d => (
+                <div key={d.dept} className="sa-card" onClick={() => setActiveDept(activeDept === d.dept ? "ALL" : d.dept)} style={{ background: activeDept === d.dept ? `${d.color}22` : CARD, border: `1px solid ${activeDept === d.dept ? d.color + "60" : CARDBORDER}`, borderRadius: 16, padding: "1.25rem", cursor: "pointer" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                    <div style={{ fontSize: 13, fontWeight: 800, color: d.color, fontFamily: "'Syne',sans-serif" }}>{d.dept}</div>
+                    <div style={{ fontSize: 20, fontWeight: 800, color: "#fff", fontFamily: "'Syne',sans-serif" }}>{d.total}</div>
+                  </div>
+                  <div style={{ height: 4, borderRadius: 100, background: "rgba(255,255,255,0.08)", marginBottom: 12 }}>
+                    <div style={{ height: "100%", borderRadius: 100, background: d.color, width: `${Math.round((d.total / Math.max(...deptStats.map(x => x.total), 1)) * 100)}%` }} />
+                  </div>
+                  <div style={{ display: "flex", gap: 8, fontSize: 11 }}>
+                    <span style={{ color: "#F59E0B" }}>● {d.open} open</span>
+                    <span style={{ color: "#3B82F6" }}>● {d.pending} pend</span>
+                    <span style={{ color: "#10B981" }}>● {d.resolved} done</span>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-        {/* Tickets table */}
-        {saTab === "overview" && <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.75rem" }}>
+            {/* Tickets table */}
+            <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.75rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem", flexWrap: "wrap", gap: 12 }}>
             <div>
               <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 800, margin: "0 0 0.2rem" }}>{activeDept === "ALL" ? "All Tickets" : `${activeDept} Tickets`}</h2>
@@ -1070,10 +1563,12 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
                   </div>
                 );
               })}
+            </div>
           </div>
-        </div>}
+          </div>
+        )}
 
-        {/* SUPER ADMIN — Response Generator Tab */}
+        {/* ══════════════════ PAGE 2: RESPONSE GENERATOR ══════════════════ */}
         {saTab === "responses" && (
           <div style={{ animation: "fadeUp 0.3s ease" }}>
             <div style={{ marginBottom: "1.5rem" }}>
@@ -1084,18 +1579,8 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
               {/* All-department ticket selector */}
               <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.5rem" }}>
                 <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 16, fontWeight: 800, color: "#fff", margin: "0 0 1rem" }}>All Tickets — Select to Respond</h3>
-                <div style={{ display: "flex", gap: 6, marginBottom: 14, flexWrap: "wrap" }}>
-                  {["ALL", ...DEPARTMENTS].map(d => {
-                    const idx = DEPARTMENTS.indexOf(d);
-                    const clr = idx >= 0 ? DEPT_COLORS[idx] : "#6366F1";
-                    return (
-                      <button key={d} onClick={() => setActiveDept(d)}
-                        style={{ padding: "4px 12px", borderRadius: 8, border: `1px solid ${activeDept === d ? clr : "rgba(255,255,255,0.1)"}`, background: activeDept === d ? clr + "30" : "rgba(255,255,255,0.04)", color: activeDept === d ? clr : "#64748B", fontSize: 11, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>{d}</button>
-                    );
-                  })}
-                </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8, maxHeight: 500, overflowY: "auto" }}>
-                  {tickets.filter(tk => activeDept === "ALL" || tk.department === activeDept).map(tk => {
+                  {tickets.map(tk => {
                     const di = DEPARTMENTS.indexOf(tk.department);
                     const dc = DEPT_COLORS[di] || "#6366F1";
                     const isActive = saActiveTicket === tk.id;
@@ -1125,7 +1610,7 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
                 {saActiveTicket ? (
                   <div style={{ animation: "slideIn 0.25s ease" }}>
                     {(() => {
-                      const tk = tickets.find(t => t.id === saActiveTicket);
+                      const tk = tickets.find(ticket => ticket.id === saActiveTicket);
                       return tk ? (
                         <>
                           <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.25rem", marginBottom: 14 }}>
@@ -1158,8 +1643,20 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
             </div>
           </div>
         )}
+
+        {/* SUPER ADMIN — Analytics Dashboard Tab — Week 3 */}
+        {saTab === "analytics" && (
+          <div style={{ animation: "fadeUp 0.3s ease" }}>
+            <div style={{ marginBottom: "1.5rem" }}>
+              <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: 28, fontWeight: 800, margin: "0 0 0.35rem", background: "linear-gradient(135deg,#fff,#A5B4FC)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Platform Analytics</h1>
+              <p style={{ fontSize: 14, color: "#475569", margin: 0 }}>Weekly trends, ticket category distribution, and average resolution time by department.</p>
+            </div>
+            <SAAnalyticsDashboard tickets={tickets} dark={dark} CARD={CARD} CARDBORDER={CARDBORDER} />
+          </div>
+        )}
       </div>
     </div>
+    
   );
 }
 
