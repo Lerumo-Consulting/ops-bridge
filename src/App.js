@@ -407,10 +407,119 @@ function TrendSparkline({ data, color = "#6366F1", dark }) {
   );
 }
 
+
+// ─── Week 3: Multi-dept weekly line chart (used in dept admin analytics) ────
+function DeptWeeklyLineChart({ tickets, dark, scope, dept }) {
+  const t = dark ? DARK : LIGHT;
+  const mutedC = dark ? "#94A3B8" : "#64748B";
+  const gridColor = dark ? "#334155" : "#E2E8F0";
+  const axisColor = dark ? "#475569" : "#CBD5E1";
+  const bgColor = dark ? "#0F172A" : "#fff";
+
+  // Build weekly buckets per department
+  const deptWeekMap = {};
+  DEPARTMENTS.forEach(d => { deptWeekMap[d] = {}; });
+  tickets.forEach(tk => {
+    const dt = new Date(tk.date);
+    const day = dt.getDay();
+    const mon = new Date(dt);
+    mon.setDate(dt.getDate() - ((day === 0 ? 7 : day) - 1));
+    const wk = mon.toISOString().split("T")[0];
+    deptWeekMap[tk.department][wk] = (deptWeekMap[tk.department][wk] || 0) + 1;
+  });
+
+  const allWeeks = [...new Set(tickets.map(tk => {
+    const dt = new Date(tk.date);
+    const day = dt.getDay();
+    const mon = new Date(dt);
+    mon.setDate(dt.getDate() - ((day === 0 ? 7 : day) - 1));
+    return mon.toISOString().split("T")[0];
+  }))].sort().slice(-6);
+
+  if (allWeeks.length < 2) {
+    return <div style={{ padding: "2rem", textAlign: "center", color: mutedC, fontSize: 13 }}>Not enough data to display trend</div>;
+  }
+
+  const deptsToDraw = scope === "DEPT" ? [dept] : DEPARTMENTS;
+  const allVals = deptsToDraw.flatMap(d => allWeeks.map(w => deptWeekMap[d]?.[w] || 0));
+  const maxV = Math.max(...allVals, 1);
+  const yTicks = [0, Math.ceil(maxV / 3), Math.ceil((maxV * 2) / 3), maxV];
+
+  const W = 460, H = 220, pL = 40, pR = 12, pT = 20, pB = 52;
+  const cW = W - pL - pR, cH = H - pT - pB;
+  const getX = (i) => pL + (i / (allWeeks.length - 1)) * cW;
+  const getY = (v) => pT + cH - (v / maxV) * cH;
+
+  return (
+    <div>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }}>
+        {yTicks.map((v, i) => {
+          const y = getY(v);
+          return (
+            <g key={i}>
+              <line x1={pL} y1={y} x2={pL + cW} y2={y} stroke={gridColor} strokeWidth="1" strokeDasharray="4 3" />
+              <text x={pL - 6} y={y + 4} textAnchor="end" fontSize="9" fill={mutedC}>{v}</text>
+            </g>
+          );
+        })}
+        <line x1={pL} y1={pT} x2={pL} y2={pT + cH} stroke={axisColor} strokeWidth="1.5" />
+        <line x1={pL} y1={pT + cH} x2={pL + cW} y2={pT + cH} stroke={axisColor} strokeWidth="1.5" />
+
+        {deptsToDraw.map((d) => {
+          const di = DEPARTMENTS.indexOf(d);
+          const clr = DEPT_COLORS[di];
+          const pts = allWeeks.map((w, i) => ({ x: getX(i), y: getY(deptWeekMap[d]?.[w] || 0), v: deptWeekMap[d]?.[w] || 0 }));
+          const poly = pts.map(p => `${p.x},${p.y}`).join(" ");
+          return (
+            <g key={d}>
+              <polyline points={poly} fill="none" stroke={clr} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+              {pts.map((p, i) => (
+                <g key={i}>
+                  <circle cx={p.x} cy={p.y} r="4.5" fill={clr} stroke={bgColor} strokeWidth="2" />
+                  {p.v > 0 && <text x={p.x} y={p.y - 9} textAnchor="middle" fontSize="9" fontWeight="700" fill={clr}>{p.v}</text>}
+                </g>
+              ))}
+            </g>
+          );
+        })}
+
+        {allWeeks.map((w, i) => {
+          const endDate = new Date(w);
+          endDate.setDate(endDate.getDate() + 6);
+          const startLabel = w.slice(5).replace("-", "/");
+          const endLabel = endDate.toISOString().slice(5, 10).replace("-", "/");
+          return (
+            <g key={w}>
+              <text x={getX(i)} y={pT + cH + 14} textAnchor="middle" fontSize="9" fontWeight="700" fill={mutedC}>Week {i + 1}</text>
+              <text x={getX(i)} y={pT + cH + 26} textAnchor="middle" fontSize="8" fill={mutedC}>{startLabel}</text>
+              <text x={getX(i)} y={pT + cH + 37} textAnchor="middle" fontSize="8" fill={mutedC}>{endLabel}</text>
+            </g>
+          );
+        })}
+        <text x={8} y={pT + cH / 2} textAnchor="middle" fontSize="9" fill={mutedC} transform={`rotate(-90,8,${pT + cH / 2})`}>Tickets</text>
+      </svg>
+
+      {/* Legend */}
+      {deptsToDraw.length > 1 && (
+        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginTop: 8, paddingLeft: pL }}>
+          {deptsToDraw.map((d) => {
+            const di = DEPARTMENTS.indexOf(d);
+            return (
+              <div key={d} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                <div style={{ width: 18, height: 3, borderRadius: 2, background: DEPT_COLORS[di] }} />
+                <span style={{ fontSize: 11, color: mutedC, fontWeight: 600 }}>{d}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function AnalyticsDashboard({ tickets, dark, scope = "ALL", dept = null }) {
   const [summary, setSummary] = useState("");
   const [summaryLoading, setSummaryLoading] = useState(false);
-  const [activeChart, setActiveChart] = useState("trend");
   const t = dark ? DARK : LIGHT;
   const CARD = dark ? "rgba(255,255,255,0.04)" : "#FFFFFF";
   const CARDBORDER = dark ? "rgba(255,255,255,0.08)" : "#E2E8F0";
@@ -441,7 +550,7 @@ function AnalyticsDashboard({ tickets, dark, scope = "ALL", dept = null }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-6",
+          model: "claude-sonnet-4-20250514",
           max_tokens: 1000,
           system: "You are a business analytics assistant for OpsBridge, an internal support ticket platform. Generate a concise, professional weekly summary report (3-4 paragraphs, plain text, no markdown headers or bullets) based on the ticket data provided. Highlight key trends, areas of concern, and actionable recommendations. Keep the tone professional and data-driven.",
           messages: [{ role: "user", content: `Generate a weekly analytics summary for OpsBridge based on this data: ${JSON.stringify(statsPayload)}` }]
@@ -481,36 +590,13 @@ function AnalyticsDashboard({ tickets, dark, scope = "ALL", dept = null }) {
 
       {/* Charts row */}
       <div style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: 16, marginBottom: 16 }}>
-        {/* Left: Trend + chart toggle */}
+        {/* Left: Multi-department weekly line chart */}
         <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.5rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-            <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 800, color: t.text, margin: 0 }}>
-              {activeChart === "trend" ? "7-Day Ticket Trend" : activeChart === "weekly" ? "Weekly Volume" : "Status Distribution"}
-            </h3>
-            <div style={{ display: "flex", gap: 5 }}>
-              {[["trend","📈"],["weekly","📅"],["status","🍩"]].map(([key, icon]) => (
-                <button key={key} onClick={() => setActiveChart(key)}
-                  style={{ padding: "4px 10px", borderRadius: 7, border: `1px solid ${activeChart === key ? "#6366F1" : CARDBORDER}`, background: activeChart === key ? (dark ? "rgba(99,102,241,0.2)" : "#EEF2FF") : "transparent", color: activeChart === key ? "#6366F1" : t.muted, fontSize: 12, cursor: "pointer", fontFamily: "inherit" }}>
-                  {icon}
-                </button>
-              ))}
-            </div>
+          <div style={{ marginBottom: "1rem" }}>
+            <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 800, color: t.text, margin: "0 0 4px" }}>Weekly Ticket Trend by Department</h3>
+            <p style={{ fontSize: 11, color: t.muted, margin: 0 }}>Tickets submitted per week — {scope === "ALL" ? "all departments" : dept}</p>
           </div>
-          {activeChart === "trend" && <TrendSparkline data={a.trendData} color="#6366F1" dark={dark} />}
-          {activeChart === "weekly" && <TrendSparkline data={a.weeklyData} color="#10B981" dark={dark} />}
-          {activeChart === "status" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 14, paddingTop: 8 }}>
-              {[["Open","#F59E0B",a.byStatus.Open],["Pending","#3B82F6",a.byStatus.Pending],["Resolved","#10B981",a.byStatus.Resolved]].map(([label,clr,val]) => (
-                <div key={label}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: t.text }}>{label}</span>
-                    <span style={{ fontSize: 13, fontWeight: 800, color: clr }}>{val} <span style={{ color: t.muted, fontWeight: 400, fontSize: 11 }}>({a.total ? Math.round(val/a.total*100) : 0}%)</span></span>
-                  </div>
-                  <AnalyticsMiniBar value={val} max={a.total} color={clr} height={10} />
-                </div>
-              ))}
-            </div>
-          )}
+          <DeptWeeklyLineChart tickets={scopedTickets} dark={dark} scope={scope} dept={dept} />
         </div>
 
         {/* Right: Department breakdown */}
@@ -559,32 +645,7 @@ function AnalyticsDashboard({ tickets, dark, scope = "ALL", dept = null }) {
       </div>
 
       {/* AI Weekly Summary */}
-      <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.75rem" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 16, fontWeight: 800, color: t.text, margin: 0 }}>AI Weekly Summary</h3>
-              <span style={{ fontSize: 9, background: "linear-gradient(135deg,#6366F1,#8B5CF6)", color: "#fff", padding: "2px 8px", borderRadius: 100, fontWeight: 700 }}>CLAUDE AI</span>
-            </div>
-            <p style={{ fontSize: 12, color: t.muted, margin: "4px 0 0" }}>Generate a professional analytics report from current ticket data</p>
-          </div>
-          <button onClick={generateSummary} disabled={summaryLoading}
-            style={{ padding: "10px 22px", background: summaryLoading ? (dark ? "#334155" : "#E2E8F0") : "linear-gradient(135deg,#6366F1,#8B5CF6)", border: "none", borderRadius: 11, color: summaryLoading ? t.muted : "#fff", fontSize: 13, fontWeight: 700, cursor: summaryLoading ? "not-allowed" : "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", gap: 8 }}>
-            {summaryLoading ? <><span style={{ display: "inline-block", animation: "spin 1s linear infinite" }}>⏳</span> Generating…</> : "✨ Generate Report"}
-          </button>
-        </div>
-        {summary ? (
-          <div style={{ background: BG, borderRadius: 12, padding: "1.25rem 1.5rem", fontSize: 13, lineHeight: 1.85, color: t.text, border: `1px solid ${CARDBORDER}`, whiteSpace: "pre-wrap" }}>
-            {summary}
-          </div>
-        ) : (
-          <div style={{ background: BG, borderRadius: 12, padding: "2rem", textAlign: "center", border: `1px dashed ${CARDBORDER}` }}>
-            <div style={{ fontSize: 32, marginBottom: 10 }}>✨</div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: t.text, marginBottom: 6 }}>Ready to generate</div>
-            <div style={{ fontSize: 13, color: t.muted }}>Click "Generate Report" to produce an AI-powered analysis of current ticket trends, backlog health, and recommendations.</div>
-          </div>
-        )}
-      </div>
+     
     </div>
   );
 }
@@ -631,7 +692,7 @@ function LandingPage({ onNav }) {
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 34, height: 34, borderRadius: 9, background: "linear-gradient(135deg,#6366F1,#8B5CF6)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 17, boxShadow: "0 4px 14px rgba(99,102,241,0.4)" }}>🌉</div>
           <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 18, letterSpacing: -0.5 }}>OpsBridge</span>
-          <span style={{ fontSize: 10, background: "linear-gradient(135deg,#6366F1,#8B5CF6)", color: "#fff", padding: "2px 8px", borderRadius: 100, fontWeight: 700, marginLeft: 4 }}>v2.0</span>
+         
         </div>
         <div style={{ display: "flex", gap: 10 }}>
           <button className="ghost" onClick={() => onNav("login")} style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", borderRadius: 10, padding: "8px 22px", fontSize: 14, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" }}>Sign In</button>
@@ -639,17 +700,13 @@ function LandingPage({ onNav }) {
         </div>
       </nav>
 
-      <div style={{ maxWidth: 860, margin: "0 auto", padding: "8rem 2rem 5rem", textAlign: "center", animation: "fadeUp 0.7s ease" }}>
-        {/* Week 2 badge */}
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(16,185,129,0.12)", border: "1px solid rgba(16,185,129,0.3)", borderRadius: 100, padding: "6px 16px", marginBottom: "1.5rem", fontSize: 12, fontWeight: 700, color: "#6EE7B7" }}>
-          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#10B981", display: "inline-block" }} />
-          WEEK 2 — AI RESPONSE GENERATOR ADDED
-        </div>
+      <div style={{ maxWidth: 720, margin: "0 auto", padding: "6rem 2rem 3rem", textAlign: "center" }}>
         <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: "clamp(2.8rem,7vw,5.2rem)", fontWeight: 800, lineHeight: 1.06, letterSpacing: -2.5, margin: "0 0 1.5rem", background: "linear-gradient(140deg,#fff 30%,#A5B4FC 75%,#8B5CF6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
           The Bridge Between<br />Your Team & Support
         </h1>
         <p style={{ fontSize: 18, color: "#94A3B8", lineHeight: 1.75, maxWidth: 560, margin: "0 auto 3rem" }}>
-          Describe your issue in plain English. OpsBridge classifies, routes, and now <strong style={{ color: "#A5B4FC" }}>automatically generates professional responses</strong> — instantly.
+          From ticket submission to resolution, OpsBridge intelligently classifies, routes, 
+          <strong style={{ color: "#A5B4FC" }}> and generates business-ready responses</strong> 
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <button className="hero-cta" onClick={() => onNav("register")} style={{ background: "linear-gradient(135deg,#6366F1,#8B5CF6)", border: "none", color: "#fff", borderRadius: 14, padding: "15px 36px", fontSize: 16, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", boxShadow: "0 6px 24px rgba(99,102,241,0.35)" }}>Get Started →</button>
@@ -657,22 +714,20 @@ function LandingPage({ onNav }) {
         </div>
       </div>
 
-      {/* Demo card showing response generator */}
-      <div style={{ maxWidth: 680, margin: "0 auto 6rem", padding: "0 2rem", animation: "float 6s ease-in-out infinite" }}>
+     {/* Floating demo card */}
+      <div style={{ maxWidth: 640, margin: "0 auto 6rem", padding: "0 2rem", animation: "float 6s ease-in-out infinite" }}>
         <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 22, padding: "2rem", backdropFilter: "blur(10px)" }}>
-          <div style={{ fontSize: 12, color: "#475569", fontWeight: 600, letterSpacing: 0.5, marginBottom: 10 }}>AI RESPONSE GENERATOR — WEEK 2</div>
-          <div style={{ background: "rgba(255,255,255,0.05)", borderRadius: 12, padding: "1rem 1.25rem", fontSize: 14, color: "#CBD5E1", fontStyle: "italic", marginBottom: "1.25rem", borderLeft: "3px solid rgba(99,102,241,0.5)", lineHeight: 1.6 }}>
+          <div style={{ fontSize: 12, color: "#475569", fontWeight: 600, letterSpacing: 0.5, marginBottom: 10 }}>INCOMING REQUEST</div>
+          <div style={{ background: "rgba(255,255,255,0.05)", borderRadius: 12, padding: "1rem 1.25rem", fontSize: 15, color: "#CBD5E1", fontStyle: "italic", marginBottom: "1.5rem", lineHeight: 1.65, borderLeft: "3px solid rgba(99,102,241,0.5)" }}>
             "My laptop won't connect to the office Wi-Fi and I can't access my emails..."
           </div>
-          <div style={{ display: "flex", gap: 6, marginBottom: "1.25rem" }}>
-            {Object.entries(TONE_CONFIG).map(([key, cfg]) => (
-              <div key={key} className="pill" style={{ padding: "5px 14px", borderRadius: 100, fontSize: 11, fontWeight: 700, background: key === "formal" ? cfg.bg : "rgba(255,255,255,0.04)", border: `1px solid ${key === "formal" ? cfg.border : "rgba(255,255,255,0.08)"}`, color: key === "formal" ? cfg.color : "#334155" }}>
-                {cfg.emoji} {cfg.label}
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {DEPARTMENTS.map((d, i) => (
+              <div key={d} className="pill" style={{ padding: "6px 16px", borderRadius: 100, fontSize: 12, fontWeight: 700, background: i === 0 ? "rgba(99,102,241,0.25)" : "rgba(255,255,255,0.04)", border: `1px solid ${i === 0 ? "rgba(99,102,241,0.55)" : "rgba(255,255,255,0.08)"}`, color: i === 0 ? "#A5B4FC" : "#334155" }}>
+                {i === 0 ? "✓ " : ""}{d}
               </div>
             ))}
-          </div>
-          <div style={{ background: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.2)", borderRadius: 10, padding: "10px 14px", fontSize: 12, color: "#6EE7B7", fontFamily: "monospace", lineHeight: 1.6 }}>
-            "Dear Thabo, Thank you for contacting the IT Support Department. Your ticket has been logged and a qualified technician has been allocated..."
+            <div style={{ padding: "6px 16px", borderRadius: 100, fontSize: 12, fontWeight: 700, background: "rgba(16,185,129,0.15)", border: "1px solid rgba(16,185,129,0.35)", color: "#6EE7B7", marginLeft: "auto" }}>Routed ⚡</div>
           </div>
         </div>
       </div>
@@ -681,7 +736,7 @@ function LandingPage({ onNav }) {
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 2rem 8rem" }}>
         <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
           <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 34, fontWeight: 800, letterSpacing: -1.5, margin: "0 0 0.5rem" }}>Now with intelligent responses</h2>
-          <p style={{ color: "#475569", fontSize: 16 }}>Sprint 2 adds AI-powered communication to every ticket</p>
+         
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 16 }}>
           {[
@@ -705,7 +760,7 @@ function LandingPage({ onNav }) {
       </div>
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "2rem", textAlign: "center", fontSize: 12, color: "#1E293B" }}>
-        © 2025 OpsBridge · Capaciti Tech Career Accelerator · Sprint 2
+        © 2025 OpsBridge · Capaciti Tech Career Accelerator · 
       </div>
     </div>
   );
@@ -1111,7 +1166,7 @@ function AdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }) {
                 {activeTicket ? (
                   <div style={{ animation: "slideIn 0.25s ease" }}>
                     {(() => {
-                      const tk = tickets.find(ticket => ticket.id === activeTicket);
+                      const tk = tickets.find(t => t.id === activeTicket);
                       return tk ? (
                         <>
                           {/* Ticket summary */}
@@ -1258,53 +1313,105 @@ function SAAnalyticsDashboard({ tickets, dark, CARD, CARDBORDER }) {
   });
   const maxAvg = Math.max(...avgResolution.map(d => d.avg), 1);
 
-  // ── Line chart renderer ───────────────────────────────────────────────────
+  // ── Multi-dept line chart renderer ───────────────────────────────────────
   const renderLine = () => {
-    if (weeklyData.length < 2) return <div style={{ padding: "2rem", textAlign: "center", color: "#475569", fontSize: 13 }}>Not enough data yet</div>;
-    const W = 560, H = 220, pL = 44, pR = 16, pT = 24, pB = 36;
+    const W = 580, H = 240, pL = 44, pR = 16, pT = 24, pB = 48;
     const cW = W - pL - pR, cH = H - pT - pB;
-    const maxV = Math.max(...weeklyData.map(d => d.count), 1);
-    const yTicks = [0, Math.ceil(maxV / 2), maxV];
-    const pts = weeklyData.map((d, i) => ({
-      x: pL + (i / Math.max(weeklyData.length - 1, 1)) * cW,
-      y: pT + cH - (d.count / maxV) * cH,
-      val: d.count, label: d.label,
-    }));
-    const poly = pts.map(p => `${p.x},${p.y}`).join(" ");
-    const area = `M ${pts[0].x},${pT + cH} ` + pts.map(p => `L ${p.x},${p.y}`).join(" ") + ` L ${pts[pts.length-1].x},${pT + cH} Z`;
-    const gridColor = dark ? "#334155" : "#E2E8F0";
-    const axisColor = dark ? "#475569" : "#CBD5E1";
-    const mutedC = dark ? "#94A3B8" : "#64748B";
+    const gridColor = dark ? "#334155" : "#2D3748";
+    const axisColor = dark ? "#475569" : "#4A5568";
+    const mutedC = dark ? "#94A3B8" : "#94A3B8";
+
+    // Build per-dept weekly data
+    const deptWeekMap = {};
+    DEPARTMENTS.forEach(d => { deptWeekMap[d] = {}; });
+    tickets.forEach(tk => {
+      const dt = new Date(tk.date);
+      const day = dt.getDay();
+      const mon = new Date(dt);
+      mon.setDate(dt.getDate() - ((day === 0 ? 7 : day) - 1));
+      const wk = mon.toISOString().split("T")[0];
+      deptWeekMap[tk.department][wk] = (deptWeekMap[tk.department][wk] || 0) + 1;
+    });
+
+    const allWeeks = [...new Set(tickets.map(tk => {
+      const dt = new Date(tk.date);
+      const day = dt.getDay();
+      const mon = new Date(dt);
+      mon.setDate(dt.getDate() - ((day === 0 ? 7 : day) - 1));
+      return mon.toISOString().split("T")[0];
+    }))].sort().slice(-6);
+
+    if (allWeeks.length < 2) return <div style={{ padding: "2rem", textAlign: "center", color: "#475569", fontSize: 13 }}>Not enough data yet</div>;
+
+    const allVals = DEPARTMENTS.flatMap(d => allWeeks.map(w => deptWeekMap[d][w] || 0));
+    const maxV = Math.max(...allVals, 1);
+    const yTicks = [0, Math.ceil(maxV / 3), Math.ceil((maxV * 2) / 3), maxV];
+
+    const getX = (i) => pL + (i / (allWeeks.length - 1)) * cW;
+    const getY = (v) => pT + cH - (v / maxV) * cH;
+
     return (
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }}>
-        <defs>
-          <linearGradient id="wkGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#6366F1" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="#6366F1" stopOpacity="0.02" />
-          </linearGradient>
-        </defs>
-        {yTicks.map((v, i) => {
-          const y = pT + cH - (v / maxV) * cH;
-          return (
-            <g key={i}>
-              <line x1={pL} y1={y} x2={pL + cW} y2={y} stroke={gridColor} strokeWidth="1" strokeDasharray="4 3" />
-              <text x={pL - 6} y={y + 4} textAnchor="end" fontSize="10" fill={mutedC}>{v}</text>
-            </g>
-          );
-        })}
-        <line x1={pL} y1={pT} x2={pL} y2={pT + cH} stroke={axisColor} strokeWidth="1.5" />
-        <line x1={pL} y1={pT + cH} x2={pL + cW} y2={pT + cH} stroke={axisColor} strokeWidth="1.5" />
-        <path d={area} fill="url(#wkGrad)" />
-        <polyline points={poly} fill="none" stroke="#6366F1" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
-        {pts.map((p, i) => (
-          <g key={i}>
-            <circle cx={p.x} cy={p.y} r="5" fill="#6366F1" stroke={dark ? "#0A0F1E" : "#fff"} strokeWidth="2.5" />
-            <text x={p.x} y={p.y - 10} textAnchor="middle" fontSize="10" fontWeight="700" fill="#6366F1">{p.val}</text>
-            <text x={p.x} y={pT + cH + 16} textAnchor="middle" fontSize="9" fill={mutedC}>{p.label}</text>
-          </g>
-        ))}
-        <text x={10} y={pT + cH / 2} textAnchor="middle" fontSize="9" fill={mutedC} transform={`rotate(-90,10,${pT + cH / 2})`}>Tickets</text>
-      </svg>
+      <div>
+        <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }}>
+          <defs>
+            {DEPARTMENTS.map((d, di) => (
+              <linearGradient key={d} id={`saGrad${di}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={DEPT_COLORS[di]} stopOpacity="0.15" />
+                <stop offset="100%" stopColor={DEPT_COLORS[di]} stopOpacity="0" />
+              </linearGradient>
+            ))}
+          </defs>
+
+          {yTicks.map((v, i) => {
+            const y = getY(v);
+            return (
+              <g key={i}>
+                <line x1={pL} y1={y} x2={pL + cW} y2={y} stroke={gridColor} strokeWidth="1" strokeDasharray="4 3" />
+                <text x={pL - 6} y={y + 4} textAnchor="end" fontSize="10" fill={mutedC}>{v}</text>
+              </g>
+            );
+          })}
+          <line x1={pL} y1={pT} x2={pL} y2={pT + cH} stroke={axisColor} strokeWidth="1.5" />
+          <line x1={pL} y1={pT + cH} x2={pL + cW} y2={pT + cH} stroke={axisColor} strokeWidth="1.5" />
+
+          {DEPARTMENTS.map((dept, di) => {
+            const clr = DEPT_COLORS[di];
+            const pts = allWeeks.map((w, i) => ({ x: getX(i), y: getY(deptWeekMap[dept][w] || 0), v: deptWeekMap[dept][w] || 0 }));
+            const poly = pts.map(p => `${p.x},${p.y}`).join(" ");
+            return (
+              <g key={dept}>
+                <polyline points={poly} fill="none" stroke={clr} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" opacity="0.9" />
+                {pts.map((p, i) => p.v > 0 && (
+                  <g key={i}>
+                    <circle cx={p.x} cy={p.y} r="4" fill={clr} stroke={dark ? "#0A0F1E" : "#0F1F3D"} strokeWidth="1.5" />
+                    <text x={p.x} y={p.y - 8} textAnchor="middle" fontSize="9" fontWeight="700" fill={clr}>{p.v}</text>
+                  </g>
+                ))}
+              </g>
+            );
+          })}
+
+          {allWeeks.map((w, i) => {
+            const weekNum = i + 1;
+            const dateLabel = w.slice(5).replace("-", "/");
+            return (
+              <g key={w}>
+                <text x={getX(i)} y={pT + cH + 14} textAnchor="middle" fontSize="9" fontWeight="700" fill={mutedC}>Wk {weekNum}</text>
+                <text x={getX(i)} y={pT + cH + 26} textAnchor="middle" fontSize="8" fill={mutedC}>{dateLabel}</text>
+              </g>
+            );
+          })}
+          <text x={10} y={pT + cH / 2} textAnchor="middle" fontSize="9" fill={mutedC} transform={`rotate(-90,10,${pT + cH / 2})`}>Tickets</text>
+        </svg>
+        <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 10, paddingLeft: pL }}>
+          {DEPARTMENTS.map((d, i) => (
+            <div key={d} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+              <div style={{ width: 20, height: 3, borderRadius: 2, background: DEPT_COLORS[i] }} />
+              <span style={{ fontSize: 11, color: mutedC, fontWeight: 600 }}>{d}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     );
   };
 
@@ -1565,7 +1672,7 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
               })}
             </div>
           </div>
-          </div>
+        </div>
         )}
 
         {/* ══════════════════ PAGE 2: RESPONSE GENERATOR ══════════════════ */}
@@ -1610,7 +1717,7 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
                 {saActiveTicket ? (
                   <div style={{ animation: "slideIn 0.25s ease" }}>
                     {(() => {
-                      const tk = tickets.find(ticket => ticket.id === saActiveTicket);
+                      const tk = tickets.find(t => t.id === saActiveTicket);
                       return tk ? (
                         <>
                           <div style={{ background: CARD, border: `1px solid ${CARDBORDER}`, borderRadius: 16, padding: "1.25rem", marginBottom: 14 }}>
@@ -1656,7 +1763,6 @@ function SuperAdminPortal({ user, tickets, setTickets, onLogout, dark, setDark }
         )}
       </div>
     </div>
-    
   );
 }
 
